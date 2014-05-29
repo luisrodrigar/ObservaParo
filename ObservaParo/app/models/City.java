@@ -21,8 +21,9 @@ public class City extends Model{
 	@ManyToOne
 	public Province province;
 	
-	public City(String name) {
+	public City(String name, Province province) {
 		this.name = name;
+		this.province = province;
 	}
 
 	public static Finder<String, City> find = new Finder<String, City>(String.class,
@@ -86,5 +87,12 @@ public class City extends Model{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "City [name=" + name + ", province=" + province + "]";
+	}
+	
+	
 	
 }

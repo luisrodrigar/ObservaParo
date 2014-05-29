@@ -1,12 +1,17 @@
 package models;
 
 import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.libs.Json;
+import utils.AutonomousCommunityGenerator;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
@@ -16,17 +21,16 @@ public class Province extends Model {
 	@Id
 	public String code;
 
+	@Required
 	public String name;
-
-	@OneToMany(mappedBy = "province")
-	public List<City> cities;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	public AutonomousCommunity autonomousCommunity;
 
 	public Province(String code, String name) {
 		this.code = code;
 		this.name = name;
+		this.autonomousCommunity = AutonomousCommunityGenerator.createComunityByProvince(this);
 	}
 
 	public static Finder<String, Province> find = new Finder<String, Province>(String.class,
@@ -36,9 +40,9 @@ public class Province extends Model {
 		return find.all();
 	}
 
-	public static void create(Province country) {
-		if (Province.findByName(country.name) == null) {
-			country.save();
+	public static void create(Province province) {
+		if (Province.findByName(province.name) == null) {
+			province.save();
 		}
 	}
 
@@ -87,5 +91,13 @@ public class Province extends Model {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Province [code=" + code + ", name=" + name
+				+ ", autonomousCommunity=" + autonomousCommunity + "]";
+	}
+	
+	
 
 }

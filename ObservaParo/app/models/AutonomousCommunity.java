@@ -1,31 +1,28 @@
 package models;
 
 import java.util.List;
+
+import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.databind.JsonNode;
+
 import play.db.ebean.Model;
 import play.libs.Json;
 
+@Entity
 public class AutonomousCommunity extends Model {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	public String code;
 
-	public String nombre;
+	public String name;
 
-	@OneToMany(mappedBy = "autonomousCommnunity")
-	public List<Province> provinces;
 
-	public AutonomousCommunity(String code, String nombre, Province province) {
+	public AutonomousCommunity(String code, String nombre) {
 		this.code = code;
-		this.nombre = nombre;
-	}
-
-	public void addProvince(Province province) {
-		if (!provinces.contains(province))
-			provinces.add(province);
+		this.name = nombre;
 	}
 
 	public static Finder<String, AutonomousCommunity> find = new Finder<String, AutonomousCommunity>(
@@ -56,6 +53,11 @@ public class AutonomousCommunity extends Model {
 
 	public static JsonNode toJson(AutonomousCommunity aCommunity) {
 		return Json.toJson(aCommunity);
+	}
+
+	@Override
+	public String toString() {
+		return "AutonomousCommunity [code=" + code + ", name=" + name + "]";
 	}
 
 }
