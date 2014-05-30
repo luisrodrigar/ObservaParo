@@ -11,7 +11,7 @@ public class Crawler {
 			"abril", "mayo", "junio", "julio", "agosto", "septiembre",
 			"octubre", "noviembre", "diciembre" };
 	public final static String[] year = { "2005", "2006", "2007", "2008",
-			"2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016" };
+			"2009", "2010", "2011", "2012", "2013", "2014" };
 	public final static String[] province = { "A_CORUNA", "ALAVA", "ALBACETE",
 			"ALICANTE", "ALMERIA", "ASTURIAS", "AVILA", "BADAJOZ", "BARCELONA",
 			"BURGOS", "CACERES", "CADIZ", "CANTABRIA", "CASTELLON", "CEUTA",
@@ -27,17 +27,19 @@ public class Crawler {
 	public void download() throws IOException {
 		for (int i = 0; i < year.length; i++) {
 			for (int j = 0; j < month.length; j++) {
-				for (int k = 0; k < province.length; k++) {
-					int iMasUno = i + 5;
-					int jMasUno = j + 1;
-					String year_st = (i < 5) ? "0" + iMasUno : String
-							.valueOf(iMasUno);
-					String month_st = (j < 9) ? "0" + jMasUno : String
-							.valueOf(jMasUno);
-					storeFile(url + month[j] + "_" + year[i] + "/MUNI_"
-							+ province[k] + "_" + month_st + year_st + ".xls",
-							storeFiles + "/MUNI_" + province[k] + "_"
-									+ month_st + year_st + ".xls");
+				if (i != 0 || j > 3) {
+					for (int k = 0; k < province.length; k++) {
+						int iMasUno = i + 5;
+						int jMasUno = j + 1;
+						String year_st = (i < 5) ? "0" + iMasUno : String
+								.valueOf(iMasUno);
+						String month_st = (j < 9) ? "0" + jMasUno : String
+								.valueOf(jMasUno);
+						storeFile(url + month[j] + "_" + year[i] + "/MUNI_"
+								+ province[k] + "_" + month_st + year_st
+								+ ".xls", storeFiles + "/MUNI_" + province[k]
+								+ "_" + month_st + year_st + ".xls");
+					}
 				}
 			}
 			System.out.println("Completed successfully year " + year[i]);
