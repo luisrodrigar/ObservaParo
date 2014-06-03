@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -27,14 +30,18 @@ public class Observation extends Model {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	public City city;
+	
+	@Temporal(TemporalType.DATE)
+	public Date date;
 
 	public static Finder<Long, Observation> find = new Finder<Long, Observation>(
 			Long.class, Observation.class);
 
-	public Observation(City city, Indicator indicator, Double value) {
+	public Observation(City city, Indicator indicator, Double value, Date date) {
 		this.city = city;
 		this.indicator = indicator;
 		this.obsValue = value;
+		this.date = date;
 	}
 
 	public Observation(String cityName, String indicatorCode, Double value) {

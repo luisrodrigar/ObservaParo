@@ -25,6 +25,7 @@ create table observation (
   obs_value                 double,
   indicator_name            varchar(255),
   city_name                 varchar(255),
+  date                      timestamp,
   constraint pk_observation primary key (id))
 ;
 

@@ -34,7 +34,7 @@ public class City extends Model{
 	}
 
 	public static void create(City city) {
-		if (Province.findByName(city.name) == null) {
+		if (City.findByName(city.name) == null) {
 			city.save();
 		}
 	}

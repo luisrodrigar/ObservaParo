@@ -24,6 +24,14 @@ public class AutonomousCommunity extends Model {
 		this.code = code;
 		this.name = nombre;
 	}
+	
+	public String getCode(){
+		return code;
+	}
+	
+	public String getName(){
+		return name;
+	}
 
 	public static Finder<String, AutonomousCommunity> find = new Finder<String, AutonomousCommunity>(
 			String.class, AutonomousCommunity.class);
@@ -33,7 +41,7 @@ public class AutonomousCommunity extends Model {
 	}
 
 	public static void create(AutonomousCommunity aCommunity) {
-		if (Province.findByName(aCommunity.code) == null) {
+		if (AutonomousCommunity.findByName(aCommunity.code) == null) {
 			aCommunity.save();
 		}
 	}

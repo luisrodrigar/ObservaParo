@@ -62,6 +62,10 @@ public class Province extends Model {
 	public static Province findByCode(String code) {
 		return find.byId(code);
 	}
+	
+	public static List<Province> findByAutonomousCommunity(AutonomousCommunity aCommunity){
+		return find.where().eq("autonomousCommunity", aCommunity).findList();
+	}
 
 	public static JsonNode toJson(Province country) {
 		return Json.toJson(country);

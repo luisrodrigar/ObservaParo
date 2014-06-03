@@ -1,7 +1,55 @@
-@(message: String)
+@import play.i18n._
+@import utils._
+@import models._
 
-@main("Welcome to Play") {
+@Application.setValue("sum", 0.0)
 
-    @play20.welcome(message, style = "Java")
-
+@main("ObservaParo") {
+  	</br>
+ 	</br>
+	<ol class="breadcrumb">
+		<li class="active"><a href="">@Messages.get("Home")</a></li>
+	</ol>
+	</br>
+  				
+ 	<div class="jumbotron">
+		<h1 class="page-header">@Messages.get("Wellcome")</h1>
+        <p class="lead">
+         	@Messages.get("Message.home")
+        </p>
+	</div>	
+	<h2 class="sub-header">@Messages.get("list.communities")</h2>
+	<h4 class="sub-header"><h4>
+	<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+               		<th>@Messages.get("Code")</th>
+              		<th>@Messages.get("Autonomous.Communities")</th>
+              		<th>@Messages.get("Indicator")</th>
+               		<th>@Messages.get("Value")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+       			@Observation.deleteAll()
+       			@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
+       			@for(community <- AutonomousCommunity.all()){
+              		<tr>
+              			<td>@community.code</td>
+                  		<td>@community.name</td>
+                  		<td>TOTAL</td>
+                  		@for(province <- Province.findByAutonomousCommunity(community)){
+                  			@for(ob <- Observation.all()){
+                  				@if(ob.city.province.equals(province) && ob.indicator.name.equals("TOTAL")){
+              						@Application.setValue("sum", (Application.getDouble("sum") + ob.obsValue))
+              					}
+              				}
+           				}
+           				<td>@Application.getDouble("sum")</td>
+           				@Application.setValue("sum", 0.0)
+           				</tr>
+           		}
+     		</tbody>
+		</table>
+	</div>
 }
