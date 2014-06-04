@@ -6,17 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import play.cache.Cache;
 import models.AutonomousCommunity;
 import models.City;
 import models.Indicator;
 import models.Observation;
 import models.Province;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -185,24 +180,5 @@ public class ExcelReaderUnemploymentCities implements Reader {
 				return false;
 		}
 		return true;
-	}
-
-	public void cachedDataAboutTotalUnemploymentAC() {
-		Map<String, Long> map = new HashMap<String, Long>();
-		for (AutonomousCommunity eachAC : AutonomousCommunity.all()) {
-			if (map.get(eachAC.code) == null) {
-				Long sum = 0L;
-				for (Province eachP : Province
-						.findByAutonomousCommunity(eachAC)) {
-					for (Observation ob : Observation.all()) {
-						if (ob.city.province.equals(eachP)
-								&& ob.indicator.name.equals("TOTAL")) {
-							sum += ob.obsValue;
-						}
-					}
-				}
-				Cache.set(eachAC.code, sum);
-			}
-		}
 	}
 }

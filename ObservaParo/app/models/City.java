@@ -51,6 +51,10 @@ public class City extends Model{
 	public static City findByName(String name) {
 		return find.where().eq("name", name).findUnique();
 	}
+	
+	public static List<City> findAllByProvince(Province province) {
+		return find.where().eq("province", province).findList();
+	}
 
 	public static JsonNode toJson(City city) {
 		return Json.toJson(city);

@@ -1,12 +1,15 @@
 package models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import play.cache.Cache;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -26,7 +29,7 @@ public class AutonomousCommunity extends Model {
 	}
 	
 	public String getSrcImg(){
-		return "images/" + code + ".png";
+		return "images/communities/" + code + ".png";
 	}
 	
 	public String getCode(){
@@ -69,6 +72,24 @@ public class AutonomousCommunity extends Model {
 
 	public static JsonNode toJson(AutonomousCommunity aCommunity) {
 		return Json.toJson(aCommunity);
+	}
+	
+	public static void cachedDataAboutTotalUnemploymentAC() {
+		Map<String, Long> map = new HashMap<String, Long>();
+		for (AutonomousCommunity eachAC : AutonomousCommunity.all()) {
+			if (map.get(eachAC.code) == null) {
+				Long sum = 0L;
+				for (Province eachP : Province
+						.findByAutonomousCommunity(eachAC)) {
+					for(City eachC: City.findAllByProvince(eachP)){
+						for (Observation ob : Observation.findByCityAndIndicator(eachC, "TOTAL")) {
+							sum += ob.obsValue;
+						}
+					}
+				}
+				Cache.set(eachAC.code, sum);
+			}
+		}
 	}
 
 	@Override

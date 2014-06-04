@@ -37,14 +37,14 @@
        		<tbody>
        			@Observation.deleteAll()
        			@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
-       			@ExcelReaderUnemploymentCities.getInstance().cachedDataAboutTotalUnemploymentAC()
-       			@for(community <- AutonomousCommunity.allOrderByCode()){
+       			@Province.cachedDataAboutTotalUnemploymentProvinces()
+       			@for(province <- Province.allOrderByCode()){
               		<tr>
-              			<td>@image(community.getSrcImg(),28,22,"img")</td>
-              			<td>@community.code</td>
-                  		<td>@community.name</td>
+              			<td>@image(province.getSrcImg(),28,22,"img")</td>
+              			<td>@province.code</td>
+                  		<td>@province.name</td>
                   		<td>TOTAL</td>
-           				<td>@Cache.get(community.code)</td>
+           				<td>@Cache.get(province.code)</td>
            			</tr>
            		}
      		</tbody>
@@ -70,8 +70,8 @@
               			<td>@Messages.get("Spain")</td>
                   		<td>TOTAL</td>
                   		@Application.setLong("total", 0L)
-                  		@for(community <- AutonomousCommunity.allOrderByCode()){
-                  			@Application.setValue("current", Cache.get(community.code))
+                  		@for(province <- Province.allOrderByCode()){
+                  			@Application.setValue("current", Cache.get(province.code))
            					@Application.setLong("total", Application.getLong("current") + Application.getLong("total"))
            				}
            				<td>@Application.getLong("total")</td>

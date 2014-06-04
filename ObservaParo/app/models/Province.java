@@ -1,12 +1,15 @@
 package models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import play.cache.Cache;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -33,6 +36,10 @@ public class Province extends Model {
 		this.autonomousCommunity = AutonomousCommunityGenerator.createComunityByProvince(this);
 	}
 
+	public String getSrcImg(){
+		return "images/provinces/" + code + ".png";
+	}
+	
 	public static Finder<String, Province> find = new Finder<String, Province>(String.class,
 			Province.class);
 
@@ -69,6 +76,25 @@ public class Province extends Model {
 
 	public static JsonNode toJson(Province country) {
 		return Json.toJson(country);
+	}
+	
+	public static List<Province> allOrderByCode(){
+		return find.where().orderBy("code asc").findList();
+	}
+	
+	public static void cachedDataAboutTotalUnemploymentProvinces() {
+		Map<String, Long> map = new HashMap<String, Long>();
+		for (Province eachP : Province.all()) {
+			if (map.get(eachP.code) == null) {
+				Long sum = 0L;
+				for(City eachC: City.findAllByProvince(eachP)){
+					for (Observation ob : Observation.findByCityAndIndicator(eachC, "TOTAL")) {
+						sum += ob.obsValue;
+					}
+				}
+				Cache.set(eachP.code, sum);
+			}
+		}
 	}
 
 	@Override

@@ -123,9 +123,9 @@ public class Observation extends Model {
 		return result;
 	}
 
-	public static List<Observation> findByCountryCode(String countryCode) {
-		Province c = Province.find.byId(countryCode);
-		List<Observation> result = find.where().eq("country", c).findList();
+	public static List<Observation> findByCityAndIndicator(City city, String indicator) {
+		Indicator i = Indicator.findByName(indicator);
+		List<Observation> result = find.where().eq("city", city).eq("indicator", i).findList();
 		return result;
 	}
 
