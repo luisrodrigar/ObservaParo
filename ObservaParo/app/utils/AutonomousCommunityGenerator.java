@@ -47,7 +47,7 @@ public class AutonomousCommunityGenerator {
 			case "38": case "35":
 				return new AutonomousCommunity("05", "CANARIAS");
 			case "07":
-				return new AutonomousCommunity("04", "Islas Baleares");
+				return new AutonomousCommunity("04", "ISLAS BALEARES");
 			case "50": case "44": case "22":
 				return new AutonomousCommunity("02", "ARAGON");
 			case "04": case "11": case "14": case "18": case "21": case "23": case "29": case "41":

@@ -23,7 +23,7 @@ public class Observation extends Model {
 	public Long id;
 
 	@Required
-	public Double obsValue;
+	public Long obsValue;
 
 	@ManyToOne
 	public Indicator indicator;
@@ -37,14 +37,14 @@ public class Observation extends Model {
 	public static Finder<Long, Observation> find = new Finder<Long, Observation>(
 			Long.class, Observation.class);
 
-	public Observation(City city, Indicator indicator, Double value, Date date) {
+	public Observation(City city, Indicator indicator, Long value, Date date) {
 		this.city = city;
 		this.indicator = indicator;
 		this.obsValue = value;
 		this.date = date;
 	}
 
-	public Observation(String cityName, String indicatorCode, Double value) {
+	public Observation(String cityName, String indicatorCode, Long value) {
 		this.city = City.find.ref(cityName);
 		this.indicator = Indicator.find.ref(indicatorCode);
 		this.obsValue = value;
@@ -54,7 +54,7 @@ public class Observation extends Model {
 		return find.all();
 	}
 
-	public static Observation create(String code, String indicator, Double value) {
+	public static Observation create(String code, String indicator, Long value) {
 		Observation observation = new Observation(code, indicator, value);
 		observation.save();
 		return observation;

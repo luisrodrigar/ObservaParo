@@ -14,10 +14,21 @@ public class Application extends Controller {
 	    map.put(key, value);
 	}
 	
-	public static Double getDouble(String key) {
-	    return Double.valueOf(map.get(key).toString());
+	public static void setLong(String key, Long value) {
+	    map.put(key, value);
+	}
+	
+	public static Long getLong(String key) {
+		if(key!=null && map.get(key)!=null)
+			return Long.valueOf(map.get(key).toString());
+		else
+			return 0L;
 	}
 
+	public static void setError(String key, Object value){
+		map.put(key, value);
+	}
+	
 	public static Object getValue(String key) {
 	    return map.get(key);
 	}

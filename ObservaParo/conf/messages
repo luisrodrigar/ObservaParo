@@ -10,6 +10,10 @@ Wellcome				= Wellcome to ObservaParo
 Indicator				= Indicator
 Value					= Value
 Code					= Code
+Flag					= Flag
+Date					= Date
+Spain					= Spain
+Country					= Country
 
 list.provinces			= List of provinces
 list.communities		= Unemployment rates of Spanish autonomous communities

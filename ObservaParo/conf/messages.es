@@ -10,6 +10,10 @@ Wellcome				= Bienvenido a ObservaParo
 Indicator				= Indicador
 Value					= Valor
 Code					= Código
+Flag					= Bandera
+Date					= Fecha
+Spain					= España
+Country					= País
 
 list.provinces			= Lista de provincias
 list.communities		= Desempleo en las comunidades autónomas de España
@@ -20,4 +24,4 @@ list.indicators			= Lista de indicadores
 observations			= Observaciones
 list.observations		= Lista de Observaciones
 
-Message.home			= Aplicación web que proporciona información valiosa para diversos medios acerca de la situación laboral en la que se encuentra España. Puedes encontrar filtros a tu derecha. ¡Disfruta de la página! 
+Message.home			= Aplicación web que proporciona información para diversos medios acerca de la situación laboral en la que se encuentra España. Puedes encontrar filtros a tu derecha. ¡Disfruta de la página! 

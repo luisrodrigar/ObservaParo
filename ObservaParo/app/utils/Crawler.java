@@ -12,7 +12,7 @@ public class Crawler {
 			"octubre", "noviembre", "diciembre" };
 	public final static String[] year = { "2005", "2006", "2007", "2008",
 			"2009", "2010", "2011", "2012", "2013", "2014" };
-	public final static String[] province = { "A_CORUNA", "ALAVA", "ALBACETE",
+	public final static String[] province = { "A_CORUNA", "ALAVA", "ARABA", "ALBACETE",
 			"ALICANTE", "ALMERIA", "ASTURIAS", "AVILA", "BADAJOZ", "BARCELONA",
 			"BURGOS", "CACERES", "CADIZ", "CANTABRIA", "CASTELLON", "CEUTA",
 			"CIUDAD_REAL", "CORDOBA", "CUENCA", "GIRONA", "GRANADA",
@@ -21,7 +21,7 @@ public class Crawler {
 			"MALAGA", "MELILLA", "MURCIA", "NAVARRA", "OURENSE", "PALENCIA",
 			"PONTEVEDRA", "SALAMANCA", "TENERIFE", "SEGOVIA", "SEVILLA",
 			"SORIA", "TARRAGONA", "TERUEL", "TOLEDO", "VALENCIA", "VALLADOLID",
-			"VIZCAYA", "ZAMORA", "ZARAGOZA" };
+			"VIZCAYA", "BIZKAIA", "ZAMORA", "ZARAGOZA" };
 	public final static String storeFiles = "public/data";
 
 	public void download() throws IOException {

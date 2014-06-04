@@ -25,6 +25,10 @@ public class AutonomousCommunity extends Model {
 		this.name = nombre;
 	}
 	
+	public String getSrcImg(){
+		return "images/" + code + ".png";
+	}
+	
 	public String getCode(){
 		return code;
 	}
@@ -38,6 +42,10 @@ public class AutonomousCommunity extends Model {
 
 	public static List<AutonomousCommunity> all() {
 		return find.all();
+	}
+	
+	public static List<AutonomousCommunity> allOrderByCode(){
+		return find.where().orderBy("code asc").findList();
 	}
 
 	public static void create(AutonomousCommunity aCommunity) {

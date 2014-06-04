@@ -1,8 +1,9 @@
 @import play.i18n._
 @import utils._
 @import models._
+@import play.cache._
 
-@Application.setValue("sum", 0.0)
+@Application.setValue("sum", 0)
 
 @main("ObservaParo") {
   	</br>
@@ -18,12 +19,15 @@
          	@Messages.get("Message.home")
         </p>
 	</div>	
+	
+	
 	<h2 class="sub-header">@Messages.get("list.communities")</h2>
-	<h4 class="sub-header"><h4>
+	<h3 class="sub-header">@Messages.get("Date") : @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)<h3>
 	<div class="table-responsive">
     	<table class="table table-striped">
     	   	<thead>
               	<tr>
+              		<th>@Messages.get("Flag")</th>
                		<th>@Messages.get("Code")</th>
               		<th>@Messages.get("Autonomous.Communities")</th>
               		<th>@Messages.get("Indicator")</th>
@@ -33,22 +37,45 @@
        		<tbody>
        			@Observation.deleteAll()
        			@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
-       			@for(community <- AutonomousCommunity.all()){
+       			@ExcelReaderUnemploymentCities.getInstance().cachedDataAboutTotalUnemploymentAC()
+       			@for(community <- AutonomousCommunity.allOrderByCode()){
               		<tr>
+              			<td>@image(community.getSrcImg(),28,22,"img")</td>
               			<td>@community.code</td>
                   		<td>@community.name</td>
                   		<td>TOTAL</td>
-                  		@for(province <- Province.findByAutonomousCommunity(community)){
-                  			@for(ob <- Observation.all()){
-                  				@if(ob.city.province.equals(province) && ob.indicator.name.equals("TOTAL")){
-              						@Application.setValue("sum", (Application.getDouble("sum") + ob.obsValue))
-              					}
-              				}
-           				}
-           				<td>@Application.getDouble("sum")</td>
-           				@Application.setValue("sum", 0.0)
-           				</tr>
+           				<td>@Cache.get(community.code)</td>
+           			</tr>
            		}
+     		</tbody>
+		</table>
+	</div>
+	
+	
+	<h2 class="sub-header">@Messages.get("Spain")</h2>
+	<h3 class="sub-header">@Messages.get("Date") : @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)<h3>
+	<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+              		<th>@Messages.get("Flag")</th>
+              		<th>@Messages.get("Country")</th>
+              		<th>@Messages.get("Indicator")</th>
+               		<th>@Messages.get("Value")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+              		<tr>
+              			<td>@image("images/spain.png",28,22,"img")</td>
+              			<td>@Messages.get("Spain")</td>
+                  		<td>TOTAL</td>
+                  		@Application.setLong("total", 0L)
+                  		@for(community <- AutonomousCommunity.allOrderByCode()){
+                  			@Application.setValue("current", Cache.get(community.code))
+           					@Application.setLong("total", Application.getLong("current") + Application.getLong("total"))
+           				}
+           				<td>@Application.getLong("total")</td>
+           			</tr>
      		</tbody>
 		</table>
 	</div>

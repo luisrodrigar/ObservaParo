@@ -22,7 +22,7 @@ create table indicator (
 
 create table observation (
   id                        bigint not null,
-  obs_value                 double,
+  obs_value                 bigint,
   indicator_name            varchar(255),
   city_name                 varchar(255),
   date                      timestamp,

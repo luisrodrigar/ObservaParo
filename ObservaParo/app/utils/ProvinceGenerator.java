@@ -25,7 +25,7 @@ public class ProvinceGenerator {
 				return "03";
 			case "ALMERIA":
 				return "04";
-			case "ALAVA":
+			case "ALAVA": case "ARABA":
 				return "01";
 			case "ASTURIAS":
 				return "33";
@@ -37,7 +37,7 @@ public class ProvinceGenerator {
 				return "07";
 			case "BARCELONA":
 				return "08";
-			case "VIZCAYA":
+			case "VIZCAYA": case "BIZKAIA":
 				return "48";
 			case "BURGOS":
 				return "09";
@@ -57,7 +57,7 @@ public class ProvinceGenerator {
 				return "15";
 			case "CUENCA":
 				return "16";
-			case "GUIPUZCOA":
+			case "GUIPUZCOA": case "GIPUZKOA":
 				return "20";
 			case "GIRONA":
 				return "17";
