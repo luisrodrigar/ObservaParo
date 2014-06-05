@@ -1,8 +1,8 @@
 Home 					= Home
 About.me 				= About me
 
-Autonomous.Communities 	= Autonomous Communities
-Provinces				= Provinces
+Autonomous.Communities 	= Autonomous Community
+Provinces				= Province
 Economic.sectors		= Economic Sectors
 People					= People
 
@@ -14,8 +14,11 @@ Flag					= Flag
 Date					= Date
 Spain					= Spain
 Country					= Country
+Percentage				= Percentage
+UnemploymentPeople		= Unemployment People
+Total					= Total
 
-list.provinces			= List of provinces
+list.provinces			= Unemployment rates of Spanish provinces
 list.communities		= Unemployment rates of Spanish autonomous communities
 list.cities				= List of cities
 indicators				= Indicators

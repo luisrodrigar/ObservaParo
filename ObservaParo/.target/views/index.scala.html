@@ -2,6 +2,7 @@
 @import utils._
 @import models._
 @import play.cache._
+@import scala.math._
 
 @Application.setValue("sum", 0)
 
@@ -21,8 +22,39 @@
 	</div>	
 	
 	
-	<h2 class="sub-header">@Messages.get("list.communities")</h2>
-	<h3 class="sub-header">@Messages.get("Date") : @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)<h3>
+	@Observation.deleteAll()
+	@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
+   	@Application.setLong("total", 0L)
+	@for(province <- Province.all()){
+     	@for(ob <-Observation.findByCityAndIndicator(City.findCityProvince(province),"TOTAL")){
+            @Application.setValue("current", ob.obsValue)
+   			@Application.setLong("total", Application.getLong("current") + Application.getLong("total"))
+  		}
+   	}
+   	
+   	<h2 class="sub-header">@Messages.get("Spain")<small> @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)</small></h2>
+	<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+              		<th>@Messages.get("Flag")</th>
+              		<th>@Messages.get("Country")</th>
+              		<th>@Messages.get("Indicator")</th>
+               		<th>@Messages.get("UnemploymentPeople")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+              		<tr>
+              			<td>@image("images/spain.png",28,22,Messages.get("Flag"))</td>
+              			<td>@Messages.get("Spain")</td>
+                  		<td>@Messages.get("Total")</td>
+           				<td>@Application.getValueWithSeparators(Application.getLong("total").toDouble)</td>
+           			</tr>
+     		</tbody>
+		</table>
+	</div>
+	
+	<h2 class="sub-header">@Messages.get("list.communities")<small> @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)</small></h2>
 	<div class="table-responsive">
     	<table class="table table-striped">
     	   	<thead>
@@ -31,51 +63,58 @@
                		<th>@Messages.get("Code")</th>
               		<th>@Messages.get("Autonomous.Communities")</th>
               		<th>@Messages.get("Indicator")</th>
-               		<th>@Messages.get("Value")</th>
+               		<th>@Messages.get("UnemploymentPeople")</th>
+               		<th>@Messages.get("Percentage")</th>
               	</tr>
            	</thead>
        		<tbody>
-       			@Observation.deleteAll()
-       			@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
-       			@Province.cachedDataAboutTotalUnemploymentProvinces()
-       			@for(province <- Province.allOrderByCode()){
+       		@for(community <- AutonomousCommunity.allOrderByCode()){
               		<tr>
-              			<td>@image(province.getSrcImg(),28,22,"img")</td>
-              			<td>@province.code</td>
-                  		<td>@province.name</td>
-                  		<td>TOTAL</td>
-           				<td>@Cache.get(province.code)</td>
+              			<td>@image(community.getSrcImg(),28,22,Messages.get("Flag"))</td>
+              			<td>@community.code</td>
+                  		<td>@community.name</td>
+                  		<td>@Messages.get("Total")</td>
+                  		@Application.setValue("sum", 0L)
+                  		@for(province <- Province.findByAutonomousCommunity(community)){
+                  			@for(ob <- Observation.findByCityAndIndicator(City.findCityProvince(province),"TOTAL")){
+                  				@Application.setValue("current", ob.obsValue)
+           						@Application.setLong("sum", Application.getLong("current") + Application.getLong("sum"))
+           					}
+           				}
+           				<td>@Application.getValueWithSeparators(Application.getLong("sum").toDouble)</td>
+           				<td>@{Application.getValueWithSeparators(BigDecimal(((Application.getLong("sum") * 100).toDouble / Application.getLong("total")).toDouble).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble)} %</td>	
            			</tr>
-           		}
+           	}
      		</tbody>
 		</table>
 	</div>
 	
-	
-	<h2 class="sub-header">@Messages.get("Spain")</h2>
-	<h3 class="sub-header">@Messages.get("Date") : @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)<h3>
+	<h2 class="sub-header">@Messages.get("list.provinces")<small> @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)</small></h2>
 	<div class="table-responsive">
     	<table class="table table-striped">
     	   	<thead>
               	<tr>
               		<th>@Messages.get("Flag")</th>
-              		<th>@Messages.get("Country")</th>
+               		<th>@Messages.get("Code")</th>
+              		<th>@Messages.get("Provinces")</th>
               		<th>@Messages.get("Indicator")</th>
-               		<th>@Messages.get("Value")</th>
+               		<th>@Messages.get("UnemploymentPeople")</th>
+               		<th>@Messages.get("Percentage")</th>
               	</tr>
            	</thead>
        		<tbody>
+       			@for(province <- Province.allOrderByCode()){
               		<tr>
-              			<td>@image("images/spain.png",28,22,"img")</td>
-              			<td>@Messages.get("Spain")</td>
-                  		<td>TOTAL</td>
-                  		@Application.setLong("total", 0L)
-                  		@for(province <- Province.allOrderByCode()){
-                  			@Application.setValue("current", Cache.get(province.code))
-           					@Application.setLong("total", Application.getLong("current") + Application.getLong("total"))
+              			<td>@image(province.getSrcImg(),28,22,Messages.get("Flag"))</td>
+              			<td>@province.code</td>
+                  		<td>@province.name</td>
+                  		<td>@Messages.get("Total")</td>
+                  		@for(ob <- Observation.findByCityAndIndicator(City.findCityProvince(province),"TOTAL")){
+                  			<td>@Application.getValueWithSeparators(ob.obsValue.toDouble)</td>
+                  			<td>@{Application.getValueWithSeparators(BigDecimal(((ob.obsValue * 100).toDouble / Application.getLong("total")).toDouble).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble)}% </td>  
            				}
-           				<td>@Application.getLong("total")</td>
            			</tr>
+           		}
      		</tbody>
 		</table>
 	</div>

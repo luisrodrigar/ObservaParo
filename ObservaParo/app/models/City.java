@@ -56,6 +56,10 @@ public class City extends Model{
 		return find.where().eq("province", province).findList();
 	}
 
+	public static City findCityProvince(Province province){
+		return find.where().eq("province",province).eq("name", "PROVINCE"+province.code).findUnique();
+	}
+	
 	public static JsonNode toJson(City city) {
 		return Json.toJson(city);
 	}

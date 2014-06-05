@@ -1,8 +1,8 @@
 Home 					= Inicio
 About.me 				= Sobre mí
 
-Autonomous.Communities 	= Comunidades Autónomas
-Provinces				= Provincias
+Autonomous.Communities 	= Comunidad Autónoma
+Provinces				= Provincia
 Economic.sectors		= Sectores Económicos
 People					= Gente
 
@@ -14,9 +14,12 @@ Flag					= Bandera
 Date					= Fecha
 Spain					= España
 Country					= País
+Percentage				= Porcentaje
+UnemploymentPeople		= Parados
+Total					= Total
 
-list.provinces			= Lista de provincias
-list.communities		= Desempleo en las comunidades autónomas de España
+list.provinces			= Desempleo en las provincias españolas
+list.communities		= Desempleo en las comunidades autónomas
 list.cities				= Lista de ciudades
 indicators				= Indicadores
 list.indicators			= Lista de indicadores

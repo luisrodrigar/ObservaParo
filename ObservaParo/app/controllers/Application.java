@@ -1,6 +1,10 @@
 package controllers;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import play.mvc.*;
@@ -31,6 +35,14 @@ public class Application extends Controller {
 	
 	public static Object getValue(String key) {
 	    return map.get(key);
+	}
+	
+	public static String getValueWithSeparators(Double value){
+		DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.getDefault());
+		DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+
+		symbols.setGroupingSeparator(' ');
+		return formatter.format(value);
 	}
 	
     public static Result index() {

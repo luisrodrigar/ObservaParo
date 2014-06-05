@@ -12,6 +12,7 @@ import models.City;
 import models.Indicator;
 import models.Observation;
 import models.Province;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -116,10 +117,95 @@ public class ExcelReaderUnemploymentCities implements Reader {
 		return obsList;
 	}
 
+	public void readProvince(String xlsFile) throws IOException,
+			InvalidFormatException {
+		InputStream input = new FileInputStream(new File(xlsFile));
+		Workbook workbook = WorkbookFactory.create(input);
+
+		Sheet sheet = workbook.getSheetAt(1);
+		if (!workbook.getSheetName(1).contains("PARO"))
+			sheet = workbook.getSheetAt(0);
+
+		Province province = ProvinceGenerator.createProvince(xlsFile);
+		AutonomousCommunity autonomousCommunity = AutonomousCommunityGenerator
+				.createComunityByProvince(province);
+		AutonomousCommunity.create(autonomousCommunity);
+		Province.create(province);
+		
+		Date date = new Date(getYear(xlsFile), getMonth(xlsFile), 1);
+		
+		int lastRowNotEmpty = sheet.getLastRowNum();
+		if (isRowEmpty(sheet.getRow(sheet.getLastRowNum())))
+			lastRowNotEmpty = lastRowNotEmpty - 1;
+
+		String indicatorName = "";
+		Long value = 0L;
+		City city = new City("PROVINCE" + province.code, province);
+		City.create(city);
+
+		for (Cell cell : sheet.getRow(lastRowNotEmpty)) {
+			switch (cell.getColumnIndex()) {
+			case 2:
+				indicatorName = "TOTAL";
+				value = getCellValue(cell, workbook);
+				break;
+			case 3:
+				indicatorName = "HOMBRES<25";
+				value = getCellValue(cell, workbook);
+				break;
+			case 4:
+				indicatorName = "HOMBRES25-44";
+				value = getCellValue(cell, workbook);
+				break;
+			case 5:
+				indicatorName = "HOMBRES>=45";
+				value = getCellValue(cell, workbook);
+				break;
+			case 6:
+				indicatorName = "MUJERES<25";
+				value = getCellValue(cell, workbook);
+				break;
+			case 7:
+				indicatorName = "MUJERES25-44";
+				value = getCellValue(cell, workbook);
+				break;
+			case 8:
+				indicatorName = "MUJERES>=45";
+				value = getCellValue(cell, workbook);
+				break;
+			case 9:
+				indicatorName = "SECTOR_AGRICULTURA";
+				value = getCellValue(cell, workbook);
+				break;
+			case 10:
+				indicatorName = "SECTOR_INDUSTRIA";
+				value = getCellValue(cell, workbook);
+				break;
+			case 11:
+				indicatorName = "SECTOR_CONSTRUCCION";
+				value = getCellValue(cell, workbook);
+				break;
+			case 12:
+				indicatorName = "SECTOR_SERVICIOS";
+				value = getCellValue(cell, workbook);
+				break;
+			case 13:
+				indicatorName = "SIN_EMPLEO_ANTERIOR";
+				value = getCellValue(cell, workbook);
+				break;
+			}
+			if (cell.getColumnIndex() > 1 && cell.getColumnIndex() < 14) {
+				Indicator indicator = new Indicator(indicatorName);
+				Indicator.create(indicator);
+				Observation ob = new Observation(city, indicator,
+						value, date);
+				ob.save();
+			}
+		}
+	}
+
 	private Long getCellValue(Cell cell, Workbook workbook) {
 		Long value = null;
-		// FormulaEvaluator evaluator =
-		// workbook.getCreationHelper().createFormulaEvaluator();
 		if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
 			value = ((Double) cell.getNumericCellValue()).longValue();
 		else if (cell.getCellType() == Cell.CELL_TYPE_BLANK)
@@ -168,7 +254,7 @@ public class ExcelReaderUnemploymentCities implements Reader {
 		File file = new File("public/data");
 		for (File each : file.listFiles()) {
 			if (each.getName().contains(date)) {
-				read("public/data/" + each.getName());
+				readProvince("public/data/" + each.getName());
 			}
 		}
 	}
