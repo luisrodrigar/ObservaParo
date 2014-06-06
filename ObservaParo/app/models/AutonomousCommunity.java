@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import play.cache.Cache;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.libs.Json;
 
@@ -19,7 +20,7 @@ public class AutonomousCommunity extends Model {
 
 	@Id
 	public String code;
-
+	@Required
 	public String name;
 
 

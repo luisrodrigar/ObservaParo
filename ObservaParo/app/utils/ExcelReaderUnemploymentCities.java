@@ -21,7 +21,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 @SuppressWarnings("deprecation")
-public class ExcelReaderUnemploymentCities implements Reader {
+public class ExcelReaderUnemploymentCities{
 
 	public List<Observation> read(String xlsFile) throws IOException,
 			InvalidFormatException {
