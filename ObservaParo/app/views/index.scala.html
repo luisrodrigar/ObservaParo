@@ -19,8 +19,10 @@
         <p class="lead">
          	@Messages.get("Message.home")
         </p>
-	</div>	
-	
+        <p>
+        	@Messages.get("Message.enjoy")
+        </p>
+	</div>
 	
 	@Observation.deleteAll()
 	@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
@@ -30,7 +32,7 @@
             @Application.setValue("current", ob.obsValue)
    			@Application.setLong("total", Application.getLong("current") + Application.getLong("total"))
   		}
-   	}
+   	}	
    	
    	<h2 class="sub-header">@Messages.get("Spain")<small> @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)</small></h2>
 	<div class="table-responsive">

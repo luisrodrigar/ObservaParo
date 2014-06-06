@@ -2,8 +2,23 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index()
+# Web page
+GET     /			                      		controllers.Application.index()
+GET		/communities							controllers.Application.community()
+GET		/provinces								controllers.Application.province()
+GET		/sectors								controllers.Application.sector()
+GET		/people									controllers.Application.people()
+
+# API 
+
+GET		/api/communities						controllers.API.communities()
+GET		/api/community/:code					controllers.API.community(code: String)
+GET		/api/provinces							controllers.API.provinces()
+GET		/api/province/:code						controllers.API.province(code: String)
+GET		/api/cities								controllers.API.cities()
+GET		/api/city/:name							controllers.API.city(name: String)
+
+GET		/api/observation						controllers.API.observations()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -24,7 +24,8 @@ list.cities				= List of cities
 indicators				= Indicators
 list.indicators			= List of Indicators
 
-observations		= Observations
-list.observations	= List of Observations
+observations			= Observations
+list.observations		= List of Observations
 
-Message.home 		= Web application that provides important information about the employment situation in Spain. You can find a filter to your right. Enjoy the web site!
+Message.home 			= Web application that provides information about the employment situation in Spain. 
+Message.enjoy			= Enjoy the web site!

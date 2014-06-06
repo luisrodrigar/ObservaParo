@@ -27,4 +27,5 @@ list.indicators			= Lista de indicadores
 observations			= Observaciones
 list.observations		= Lista de Observaciones
 
-Message.home			= Aplicación web que proporciona información para diversos medios acerca de la situación laboral en la que se encuentra España. Puedes encontrar filtros a tu derecha. ¡Disfruta de la página! 
+Message.home			= Aplicación web que proporciona información acerca de la situación de desempleo en España.
+Message.enjoy			= ¡Disfruta del sitio web! 

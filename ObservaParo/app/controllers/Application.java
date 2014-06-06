@@ -6,7 +6,6 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import play.mvc.*;
 import views.html.*;
 
@@ -47,6 +46,10 @@ public class Application extends Controller {
 	
     public static Result index() {
         return ok(index.render());
+    }
+    
+    public static void community(){
+    	return ok(community.render());
     }
 
 }
