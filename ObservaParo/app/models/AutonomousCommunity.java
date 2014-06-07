@@ -82,8 +82,8 @@ public class AutonomousCommunity extends Model {
 				Long sum = 0L;
 				for (Province eachP : Province
 						.findByAutonomousCommunity(eachAC)) {
-					for(City eachC: City.findAllByProvince(eachP)){
-						for (Observation ob : Observation.findByCityAndIndicator(eachC, "TOTAL")) {
+					for(Zone eachC: Zone.findAllByProvince(eachP)){
+						for (Observation ob : Observation.findByZoneAndIndicator(eachC, "TOTAL")) {
 							sum += ob.obsValue;
 						}
 					}

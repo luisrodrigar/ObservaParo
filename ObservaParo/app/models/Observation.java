@@ -29,7 +29,7 @@ public class Observation extends Model {
 	public Indicator indicator;
 
 	@ManyToOne(fetch=FetchType.EAGER)
-	public City city;
+	public Zone zone;
 	
 	@Temporal(TemporalType.DATE)
 	public Date date;
@@ -37,15 +37,15 @@ public class Observation extends Model {
 	public static Finder<Long, Observation> find = new Finder<Long, Observation>(
 			Long.class, Observation.class);
 
-	public Observation(City city, Indicator indicator, Long value, Date date) {
-		this.city = city;
+	public Observation(Zone zone, Indicator indicator, Long value, Date date) {
+		this.zone = zone;
 		this.indicator = indicator;
 		this.obsValue = value;
 		this.date = date;
 	}
 
-	public Observation(String cityName, String indicatorCode, Long value) {
-		this.city = City.find.ref(cityName);
+	public Observation(String zoneName, String indicatorCode, Long value) {
+		this.zone = Zone.find.ref(zoneName);
 		this.indicator = Indicator.find.ref(indicatorCode);
 		this.obsValue = value;
 	}
@@ -123,16 +123,16 @@ public class Observation extends Model {
 		return result;
 	}
 
-	public static List<Observation> findByCityAndIndicator(City city, String indicator) {
+	public static List<Observation> findByZoneAndIndicator(Zone zone, String indicator) {
 		Indicator i = Indicator.findByName(indicator);
-		List<Observation> result = find.where().eq("city", city).eq("indicator", i).findList();
+		List<Observation> result = find.where().eq("zone", zone).eq("indicator", i).findList();
 		return result;
 	}
 
 	@Override
 	public String toString() {
 		return "Observation [id=" + id + ", obsValue=" + obsValue
-				+ ", indicator=" + indicator + ", city=" + city + "]";
+				+ ", indicator=" + indicator + ", zone=" + zone + "]";
 	}
 
 }

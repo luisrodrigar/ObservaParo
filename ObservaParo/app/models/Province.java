@@ -87,8 +87,8 @@ public class Province extends Model {
 		for (Province eachP : Province.all()) {
 			if (map.get(eachP.code) == null) {
 				Long sum = 0L;
-				for(City eachC: City.findAllByProvince(eachP)){
-					for (Observation ob : Observation.findByCityAndIndicator(eachC, "TOTAL")) {
+				for(Zone eachC: Zone.findAllByProvince(eachP)){
+					for (Observation ob : Observation.findByZoneAndIndicator(eachC, "TOTAL")) {
 						sum += ob.obsValue;
 					}
 				}

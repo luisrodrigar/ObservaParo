@@ -34,7 +34,7 @@ public class ExcelReaderTest {
 		Observation.deleteAll();
 		
 		String date = excelReader.getTheLastMonth();
-		excelReader.createObservationsBydate(date);
+		excelReader.createProvinceObservationsBydate(date);
 		
 		assertThat(Observation.sum(Observation.all(), "TOTAL"))
 			.isEqualTo(4684301);

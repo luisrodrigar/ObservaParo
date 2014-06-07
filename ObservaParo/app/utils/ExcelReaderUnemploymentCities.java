@@ -7,11 +7,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import models.AutonomousCommunity;
-import models.City;
+import models.Zone;
 import models.Indicator;
 import models.Observation;
 import models.Province;
+import models.Zone.TypeZone;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,22 +23,39 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 @SuppressWarnings("deprecation")
-public class ExcelReaderUnemploymentCities{
+public class ExcelReaderUnemploymentCities {
+
+	InputStream input;
+	Workbook workbook;
+	Sheet sheet;
+	Province province;
+	AutonomousCommunity autonomousCommunity;
+	Date date;
+
+	private void init(String xlsFile) throws InvalidFormatException,
+			IOException {
+		input = new FileInputStream(new File(xlsFile));
+		workbook = WorkbookFactory.create(input);
+
+		sheet = workbook.getSheetAt(1);
+		if (!workbook.getSheetName(1).contains("PARO"))
+			sheet = workbook.getSheetAt(0);
+
+		province = ProvinceGenerator.createProvince(xlsFile);
+		autonomousCommunity = AutonomousCommunityGenerator
+				.createComunityByProvince(province);
+		AutonomousCommunity.create(autonomousCommunity);
+		Province.create(province);
+
+		date = new Date(getYear(xlsFile), getMonth(xlsFile), 1);
+	}
 
 	public List<Observation> read(String xlsFile) throws IOException,
 			InvalidFormatException {
 		List<Observation> obsList = new ArrayList<Observation>();
-		InputStream input = new FileInputStream(new File(xlsFile));
-		Workbook workbook = WorkbookFactory.create(input);
-		Sheet sheet = workbook.getSheetAt(1);
-		if (!workbook.getSheetName(1).contains("PARO"))
-			sheet = workbook.getSheetAt(0);
-		Province province = ProvinceGenerator.createProvince(xlsFile);
-		AutonomousCommunity autonomousCommunity = AutonomousCommunityGenerator
-				.createComunityByProvince(province);
-		AutonomousCommunity.create(autonomousCommunity);
-		Province.create(province);
-		Date date = new Date(getYear(xlsFile), getMonth(xlsFile), 1);
+
+		init(xlsFile);
+
 		int lastRowNotEmpty = sheet.getLastRowNum();
 		if (isRowEmpty(sheet.getRow(sheet.getLastRowNum())))
 			lastRowNotEmpty = lastRowNotEmpty - 1;
@@ -45,13 +64,13 @@ public class ExcelReaderUnemploymentCities{
 				String cityName = "";
 				String indicatorName = "";
 				Long value = 0L;
-				City city = null;
+				Zone city = null;
 				for (Cell cell : row) {
 					switch (cell.getColumnIndex()) {
 					case 1:
 						cityName = cell.getStringCellValue();
-						city = new City(cityName, province);
-						City.create(city);
+						city = new Zone(cityName, province, TypeZone.CITY);
+						Zone.create(city);
 						break;
 					case 2:
 						indicatorName = "TOTAL";
@@ -119,29 +138,17 @@ public class ExcelReaderUnemploymentCities{
 
 	public void readProvince(String xlsFile) throws IOException,
 			InvalidFormatException {
-		InputStream input = new FileInputStream(new File(xlsFile));
-		Workbook workbook = WorkbookFactory.create(input);
+		init(xlsFile);
 
-		Sheet sheet = workbook.getSheetAt(1);
-		if (!workbook.getSheetName(1).contains("PARO"))
-			sheet = workbook.getSheetAt(0);
-
-		Province province = ProvinceGenerator.createProvince(xlsFile);
-		AutonomousCommunity autonomousCommunity = AutonomousCommunityGenerator
-				.createComunityByProvince(province);
-		AutonomousCommunity.create(autonomousCommunity);
-		Province.create(province);
-		
-		Date date = new Date(getYear(xlsFile), getMonth(xlsFile), 1);
-		
 		int lastRowNotEmpty = sheet.getLastRowNum();
 		if (isRowEmpty(sheet.getRow(sheet.getLastRowNum())))
 			lastRowNotEmpty = lastRowNotEmpty - 1;
 
 		String indicatorName = "";
 		Long value = 0L;
-		City city = new City("PROVINCE" + province.code, province);
-		City.create(city);
+		Zone city = new Zone("PROVINCE" + province.code, province,
+				TypeZone.PROVINCE);
+		Zone.create(city);
 
 		for (Cell cell : sheet.getRow(lastRowNotEmpty)) {
 			switch (cell.getColumnIndex()) {
@@ -197,8 +204,7 @@ public class ExcelReaderUnemploymentCities{
 			if (cell.getColumnIndex() > 1 && cell.getColumnIndex() < 14) {
 				Indicator indicator = new Indicator(indicatorName);
 				Indicator.create(indicator);
-				Observation ob = new Observation(city, indicator,
-						value, date);
+				Observation ob = new Observation(city, indicator, value, date);
 				ob.save();
 			}
 		}
@@ -249,13 +255,30 @@ public class ExcelReaderUnemploymentCities{
 		return new ExcelReaderUnemploymentCities();
 	}
 
-	public void createObservationsBydate(String date)
+	public void createProvinceObservationsBydate(String date)
 			throws InvalidFormatException, IOException {
 		File file = new File("public/data");
 		for (File each : file.listFiles()) {
 			if (each.getName().contains(date)) {
 				readProvince("public/data/" + each.getName());
 			}
+		}
+	}
+	
+	public void createCommunityObservationsBydate(String date, String indicator)
+			throws InvalidFormatException, IOException {
+		createProvinceObservationsBydate(date);
+		for(AutonomousCommunity each: AutonomousCommunity.allOrderByCode()){
+			Long sum = 0L;
+			Date dat = null;
+			for(Province eachP : Province.findByAutonomousCommunity(each)){
+				for(Observation ob : Observation.findByZoneAndIndicator(Zone.findByName("PROVINCE"+eachP.code), indicator)){
+					sum+=ob.obsValue;
+					dat = ob.date;
+				}
+			}
+			Observation obs = new Observation(new Zone("COMMUNITY"+each.code, null, TypeZone.AUTONOMOUS_COMMUNITY), Indicator.findByName(indicator), sum, dat);
+			obs.save();
 		}
 	}
 

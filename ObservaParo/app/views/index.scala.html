@@ -25,10 +25,10 @@
 	</div>
 	
 	@Observation.deleteAll()
-	@ExcelReaderUnemploymentCities.getInstance().createObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
+	@ExcelReaderUnemploymentCities.getInstance().createProvinceObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
    	@Util.setLong("total", 0L)
 	@for(province <- Province.all()){
-     	@for(ob <-Observation.findByCityAndIndicator(City.findCityProvince(province),"TOTAL")){
+     	@for(ob <-Observation.findByZoneAndIndicator(Zone.findZoneProvince(province),"TOTAL")){
             @Util.setValue("current", ob.obsValue)
    			@Util.setLong("total", Util.getLong("current") + Util.getLong("total"))
   		}
@@ -78,7 +78,7 @@
                   		<td>@Messages.get("Total")</td>
                   		@Util.setValue("sum", 0L)
                   		@for(province <- Province.findByAutonomousCommunity(community)){
-                  			@for(ob <- Observation.findByCityAndIndicator(City.findCityProvince(province),"TOTAL")){
+                  			@for(ob <- Observation.findByZoneAndIndicator(Zone.findZoneProvince(province),"TOTAL")){
                   				@Util.setValue("current", ob.obsValue)
            						@Util.setLong("sum", Util.getLong("current") + Util.getLong("sum"))
            					}
@@ -111,7 +111,7 @@
               			<td>@province.code</td>
                   		<td>@province.name</td>
                   		<td>@Messages.get("Total")</td>
-                  		@for(ob <- Observation.findByCityAndIndicator(City.findCityProvince(province),"TOTAL")){
+                  		@for(ob <- Observation.findByZoneAndIndicator(Zone.findZoneProvince(province),"TOTAL")){
                   			<td>@Util.getValueWithSeparators(ob.obsValue.toDouble)</td>
                   			<td>@{Util.getValueWithSeparators(BigDecimal(((ob.obsValue * 100).toDouble / Util.getLong("total")).toDouble).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble)}% </td>  
            				}

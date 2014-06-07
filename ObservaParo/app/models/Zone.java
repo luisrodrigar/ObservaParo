@@ -12,29 +12,34 @@ import play.libs.Json;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
-public class City extends Model{
+public class Zone extends Model{
 	private static final long serialVersionUID = 1L;
 
+	public enum TypeZone{CITY, PROVINCE, AUTONOMOUS_COMMUNITY};
+	
 	@Id
 	public String name;
+	
+	public TypeZone type;
 	
 	@ManyToOne
 	public Province province;
 	
-	public City(String name, Province province) {
+	public Zone(String name, Province province, TypeZone type) {
 		this.name = name;
 		this.province = province;
+		this.type=type;
 	}
 
-	public static Finder<String, City> find = new Finder<String, City>(String.class,
-			City.class);
+	public static Finder<String, Zone> find = new Finder<String, Zone>(String.class,
+			Zone.class);
 
-	public static List<City> all() {
+	public static List<Zone> all() {
 		return find.all();
 	}
 
-	public static void create(City city) {
-		if (City.findByName(city.name) == null) {
+	public static void create(Zone city) {
+		if (Zone.findByName(city.name) == null) {
 			city.save();
 		}
 	}
@@ -44,23 +49,23 @@ public class City extends Model{
 	}
 
 	public static void deleteAll() {
-		for (City c : all())
+		for (Zone c : all())
 			c.delete();
 	}
 
-	public static City findByName(String name) {
+	public static Zone findByName(String name) {
 		return find.where().eq("name", name).findUnique();
 	}
 	
-	public static List<City> findAllByProvince(Province province) {
+	public static List<Zone> findAllByProvince(Province province) {
 		return find.where().eq("province", province).findList();
 	}
 
-	public static City findCityProvince(Province province){
+	public static Zone findZoneProvince(Province province){
 		return find.where().eq("province",province).eq("name", "PROVINCE"+province.code).findUnique();
 	}
 	
-	public static JsonNode toJson(City city) {
+	public static JsonNode toJson(Zone city) {
 		return Json.toJson(city);
 	}
 
@@ -82,7 +87,7 @@ public class City extends Model{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		City other = (City) obj;
+		Zone other = (Zone) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

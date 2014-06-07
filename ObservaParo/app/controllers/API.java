@@ -68,10 +68,10 @@ public class API extends Controller {
 		return ok(provinceJson);
 	}
 
-	public static Result cities() {
+	public static Result zones() {
 		JsonNodeFactory factory = JsonNodeFactory.instance;
 		ArrayNode result = new ArrayNode(factory);
-		for (City city : City.all()) {
+		for (Zone city : Zone.all()) {
 			ObjectNode cityJson = Json.newObject();
 			cityJson.put("name", city.name);
 			ArrayNode province = new ArrayNode(factory);
@@ -85,7 +85,7 @@ public class API extends Controller {
 			ArrayNode links = new ArrayNode(factory);
 			ObjectNode self = Json.newObject();
 			self.put("rel", "self");
-			self.put("href", routes.API.city(city.name).absoluteURL(request()));
+			self.put("href", routes.API.zone(city.name).absoluteURL(request()));
 
 			links.add(self);
 			cityJson.put("province", province);
@@ -95,28 +95,28 @@ public class API extends Controller {
 		return ok(result);
 	}
 
-	public static Result city(String name) {
+	public static Result zone(String name) {
 		JsonNodeFactory factory = JsonNodeFactory.instance;
-		City city = City.find.byId(name);
+		Zone zone = Zone.find.byId(name);
 		ObjectNode provinceJson = Json.newObject();
-		provinceJson.put("name", city.name);
+		provinceJson.put("name", zone.name);
 		ArrayNode p = new ArrayNode(factory);
 		ObjectNode province = Json.newObject();
-		province.put("code", city.province.code);
-		province.put("name", city.province.name);
-		province.put("uri", routes.API.province(city.province.code)
+		province.put("code", zone.province.code);
+		province.put("name", zone.province.name);
+		province.put("uri", routes.API.province(zone.province.code)
 				.absoluteURL(request()));
 		p.add(province);
 		ArrayNode links = new ArrayNode(factory);
 		ObjectNode self = Json.newObject();
 		self.put("rel", "self");
 		self.put("href",
-				routes.API.city(city.name).absoluteURL(request()));
+				routes.API.zone(zone.name).absoluteURL(request()));
 		links.add(self);
 
 		ObjectNode parent = Json.newObject();
 		parent.put("rel", "parent");
-		parent.put("href", routes.API.cities().absoluteURL(request()));
+		parent.put("href", routes.API.zones().absoluteURL(request()));
 		links.add(parent);
 
 		provinceJson.put("province", p);
@@ -167,6 +167,40 @@ public class API extends Controller {
 	}
 
 	public static Result observations() {
-		return ok(views.html.community.render());
+		JsonNodeFactory factory = JsonNodeFactory.instance;
+		ArrayNode result = new ArrayNode(factory);
+		for (Observation observation : Observation.all()) {
+			ObjectNode observationJson = Json.newObject();
+			observationJson.put("code", observation.id);
+			observationJson.put("indicator", observation.indicator.name);
+			observationJson.put("value", observation.obsValue);
+			ArrayNode zoneNode = new ArrayNode(factory);
+			ObjectNode zone = Json.newObject();
+			zone.put("code", observation.zone.name);
+			zone.put("tipo", observation.zone.type.toString());
+			zone.put("uri", routes.API.zone(observation.zone.name)
+					.absoluteURL(request()));
+			zoneNode.add(zone);
+			ArrayNode links = new ArrayNode(factory);
+			ObjectNode self = Json.newObject();
+			self.put("rel", "self");
+			self.put("href",
+					routes.API.observation(String.valueOf(observation.id)).absoluteURL(request()));
+
+			links.add(self);
+			observationJson.put("zone", zoneNode);
+			observationJson.put("links", links);
+			result.add(observationJson);
+		}
+		return ok(result);
+	}
+	
+	public static Result observation(String id){
+		return ok();
+	}
+	
+	public static Result observationsByindicatorZone(String indicator,String zoneName){
+		return TODO;
+		
 	}
 }
