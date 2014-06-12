@@ -45,7 +45,7 @@ public class API extends Controller {
 		provinceJson.put("name", province.name);
 		ArrayNode community = new ArrayNode(factory);
 		ObjectNode ac = Json.newObject();
-		AutonomousCommunity a = AutonomousCommunity.findByName(province.autonomousCommunity.code);
+		AutonomousCommunity a = AutonomousCommunity.findByCode(province.autonomousCommunity.code);
 		ac.put("code", a.code);
 		ac.put("name", a.name);
 		ac.put("uri", routes.API.community(a.code)

@@ -17,12 +17,25 @@ Country					= País
 Percentage				= Porcentaje
 UnemploymentPeople		= Parados
 Total					= Total
+Year					= Año
+Month					= Mes
 
 list.provinces			= Desempleo en las provincias españolas
 list.communities		= Desempleo en las comunidades autónomas
 list.cities				= Lista de ciudades
 indicators				= Indicadores
 list.indicators			= Lista de indicadores
+Message.community		= Selecciona una comunidad autónoma
+Message.year1			= Selecciona un primer año
+Message.month1			= Selecciona un primer mes
+Message.year2			= Selecciona un segundo año
+Message.month2			= Selecciona un segundo mes
+
+Compare					= Comparar
+Compare.communities		= Comparar la tasa de desempleo en Comunidades Autónomas
+Compare.type.year		= Entre años
+Compare.type.month		= Entre meses
+Comparison				= Comparación
 
 observations			= Observaciones
 list.observations		= Lista de Observaciones

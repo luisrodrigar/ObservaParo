@@ -136,9 +136,11 @@ public class ExcelReaderUnemploymentCities {
 		return obsList;
 	}
 
-	public void readProvince(String xlsFile) throws IOException,
+	public List<Observation> readProvince(String xlsFile) throws IOException,
 			InvalidFormatException {
 		init(xlsFile);
+		
+		List<Observation> observations = new ArrayList<Observation>();
 
 		int lastRowNotEmpty = sheet.getLastRowNum();
 		if (isRowEmpty(sheet.getRow(sheet.getLastRowNum())))
@@ -206,8 +208,10 @@ public class ExcelReaderUnemploymentCities {
 				Indicator.create(indicator);
 				Observation ob = new Observation(city, indicator, value, date);
 				ob.save();
+				observations.add(ob);
 			}
 		}
+		return observations;
 	}
 
 	private Long getCellValue(Cell cell, Workbook workbook) {

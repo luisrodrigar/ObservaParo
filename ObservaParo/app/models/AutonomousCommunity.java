@@ -53,7 +53,7 @@ public class AutonomousCommunity extends Model {
 	}
 
 	public static void create(AutonomousCommunity aCommunity) {
-		if (AutonomousCommunity.findByName(aCommunity.code) == null) {
+		if (AutonomousCommunity.findByCode(aCommunity.code) == null) {
 			aCommunity.save();
 		}
 	}
@@ -67,7 +67,7 @@ public class AutonomousCommunity extends Model {
 			a.delete();
 	}
 
-	public static AutonomousCommunity findByName(String code) {
+	public static AutonomousCommunity findByCode(String code) {
 		return find.where().eq("code", code).findUnique();
 	}
 

@@ -17,12 +17,25 @@ Country					= Country
 Percentage				= Percentage
 UnemploymentPeople		= Unemployment People
 Total					= Total
+Year					= Year
+Month					= Month
 
 list.provinces			= Unemployment rates of Spanish provinces
 list.communities		= Unemployment rates of Spanish autonomous communities
 list.cities				= List of cities
 indicators				= Indicators
 list.indicators			= List of Indicators
+Message.community		= Select an Autonomous Community
+Message.year1			= Select a first year
+Message.month1			= Select a first month
+Message.year2			= Select a second year
+Message.month2			= Select a second month
+
+Compare					= Compare
+Compare.communities		= Compare unemployment rates on Autonomous Communities
+Compare.type.year		= By years
+Compare.type.month		= By months
+Comparison				= Comparison
 
 observations			= Observations
 list.observations		= List of Observations

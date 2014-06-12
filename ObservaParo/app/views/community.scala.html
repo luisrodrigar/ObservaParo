@@ -1,9 +1,120 @@
+@()
+
 @import play.i18n._
 @import utils._
 @import models._
 @import play.cache._
 @import scala.math._
+@import views.html.helper._
 
 @main("ObservaParo") {
+	</br>
+ 	</br>
+	<ol class="breadcrumb">
+		<li><a href="/">@Messages.get("Home")</a></li>
+		<li class="active"> <a href="communities">@Messages.get("Autonomous.Communities")</a></li>
+	</ol>
+	</br>
+	<div class="row">
+        <h2>@Messages.get("Compare.communities")</h2>
+        </br>
+        <h4>@Messages.get("Compare.type.year")</h4>
+        @helper.form(action = routes.Application.showCompareZone(), 'id -> "myForm", 'class-> "form-horizontal"){
+			<div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Autonomous.Communities")</label>
+            	<div class="col-sm-4">
+            		<select name="community" id="community" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.community")</option>
+                		@for(community <- AutonomousCommunity.allOrderByCode()){
+                			<option value="@{community.code}">@community.name</option>
+                		}
+              		</select>
+           		</div>
+          	</div>
+          <div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Year") A</label>
+            	<div class="col-sm-4">
+            		<select name="year_1" id="year_1" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.year1")</option>
+                		@for(year <- 2005 to 2014){
+                			<option value="@year">@year</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Year") B</label>
+            	<div class="col-sm-4">
+            		<select name="year_2" id="year_2" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.year2")</option>
+                		@for(year <- 2005 to 2014){
+                			<option value="@year">@year</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <input type="submit" value="@Messages.get("Comparison")" class="btn btn-primary"/>
+       	}
+        </br>
+        <h4>@Messages.get("Compare.type.month")</h4>
+        @helper.form(action = routes.Application.showCompareZone(), 'id -> "myForm", 'class-> "form-horizontal"){
+			<div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Autonomous.Communities")</label>
+            	<div class="col-sm-4">
+            		<select name="community" id="community" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.community")</option>
+                		@for(community <- AutonomousCommunity.allOrderByCode()){
+                			<option value="@{community.code}">@community.name</option>
+                		}
+              		</select>
+           		</div>
+          	</div>
+          	<div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Year") A</label>
+            	<div class="col-sm-4">
+            		<select name="year" id="year" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.year")</option>
+                		@for(year <- 2005 to 2014){
+                			<option value="@year">@year</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Month") A</label>
+            	<div class="col-sm-4">
+            		<select name="month_1" id="month_1" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.month1")</option>
+                		@for(month <- 1 to 12){
+                			<option value="@month">@month</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Month") B</label>
+            	<div class="col-sm-4">
+            		<select name="month_2" id="month_2" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.month2")</option>
+                		@for(month <- 1 to 12){
+                			<option value="@month">@month</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <input type="hidden" id="type_temp" value="month"/>
+          <input type="hidden" id="type_zone" value="community"/>
+          <input type="submit" value="@Messages.get("Comparison")" class="btn btn-primary"/>
+      	}
+      </div>
+
+	<script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/bootstrap-combobox.js")" type="text/javascript"></script>
+
+	<script type="text/javascript">
+ 		$(document).ready(function(){
+    		$('.combobox').combobox();
+  		});
+	</script>
   	
 }

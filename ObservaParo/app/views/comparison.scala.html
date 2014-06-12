@@ -1,0 +1,52 @@
+@(ob1 : Observation, ob2 : Observation)
+
+@import play.i18n._
+@import utils._
+@import models._
+@import play.cache._
+@import scala.math._
+@import views.html.helper._
+
+
+@main("ObservaParo") {
+	</br>
+ 	</br>
+	<ol class="breadcrumb">
+		<li><a href="/">@Messages.get("Home")</a></li>
+		<li><a href="communities">@Messages.get("Autonomous.Communities")</a></li>
+		<li>@Messages.get("Comparison")</li>
+	</ol>
+	</br>
+	@{if(ob1.zone.name.contains("COMMUNITY"))
+		<h2 class="sub-header">@Messages.get("Comparison")<small> @ob1.zone.province.autonomousCommunity.name </small></h2>
+		<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+              		<th>@Messages.get("Indicator")</th>
+              		<th>@Messages.get("Date")</th>
+              		<th>@Messages.get("UnemploymentPeople")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+              		<tr>
+              			<td>@ob1.indicator</td>
+                  		<td>@ob1.date</td>
+           				<td>@Util.getValueWithSeparators(ob1.obsValue.toDouble)</td>
+           			</tr>
+           			<tr>
+              			<td>@ob2.indicator</td>
+                  		<td>@ob2.date</td>
+           				<td>@Util.getValueWithSeparators(ob2.obsValue.toDouble)</td>
+           			</tr>
+     		</tbody>
+		</table>
+		</div>		
+	else if(ob1.zone.name.contains("PROVINCE"))
+		<h2 class="sub-header">@Messages.get("Comparison")<small> @ob1.zone.province.name </small></h2>
+	else
+		<h2 class="sub-header">@Messages.get("Comparison")<small> @ob1.zone.name </small></h2>
+	}
+	
+	
+}

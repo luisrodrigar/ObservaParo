@@ -126,4 +126,123 @@ public class ProvinceGenerator {
 		}
 		return null;
 	}
+	
+	public static String getNameProvince(String provinceCode, int year) {
+		switch(provinceCode){
+			case "02":
+				return "ALBACETE";
+			case "03":
+				return "ALICANTE";
+			case "04":
+				return "ALMERIA";
+			case "01":
+				if(year>2011)
+					return "ARABA";
+				else
+					return "ALAVA";
+			case "33":
+				return "ASTURIAS";
+			case "05":
+				return "AVILA";
+			case "06":
+				return "BADAJOZ";
+			case "07":
+				return "BALEARES";
+			case "08":
+				return "BARCELONA";
+			case "48":
+				if(year>2011)
+					return "BIZKAIA";
+				else
+					return "VIZCAYA" ;
+			case "09":
+				return "BURGOS";
+			case "10":
+				return "CACERES";
+			case "11":
+				return "CADIZ";
+			case "39":
+				return "CANTABRIA";
+			case "12":
+				return "CASTELLON";
+			case "13":
+				return "CIUDAD_REAL";
+			case "14":
+				return "CORDOBA";
+			case "15":
+				return "A_CORUNA";
+			case "16":
+				return "CUENCA";
+			case "20":
+				if(year>2011)
+					return "GIPUZKOA";
+				else
+					return "GUIPUZCOA";
+			case "17":
+				return "GIRONA";
+			case "18":
+				return "GRANADA";
+			case "19":
+				return "GUADALAJARA";
+			case "21":
+				return "HUELVA";
+			case "22":
+				return "HUESCA";
+			case "23":
+				return "JAEN";
+			case "24":
+				return "LEON";
+			case "25":
+				return "LLEIDA";
+			case "27":
+				return "LUGO";
+			case "28":
+				return "MADRID";
+			case "29":
+				return "MALAGA";
+			case "30":
+				return "MURCIA";
+			case "31":
+				return "NAVARRA";
+			case "32":
+				return "OURENSE";
+			case "34":
+				return "PALENCIA";
+			case "35":
+				return "LAS_PALMAS";
+			case "36":
+				return "PONTEVEDRA";
+			case "26":
+				return "LA_RIOJA";
+			case "37":
+				return "SALAMANCA";
+			case "38":
+				return "TENERIFE";
+			case "40":
+				return "SEGOVIA";
+			case "41":
+				return "SEVILLA";
+			case "42":
+				return "SORIA";
+			case "43":
+				return "TARRAGONA";
+			case "44":
+				return "TERUEL";
+			case "45":
+				return "TOLEDO";
+			case "46":
+				return "VALENCIA";
+			case "47":
+				return "VALLADOLID";
+			case "49":
+				return "ZAMORA";
+			case "50":
+				return "ZARAGOZA";
+			case "51":
+				return "CEUTA";
+			case "52":
+				return "MELILLA";
+		}
+		return null;
+	}
 }

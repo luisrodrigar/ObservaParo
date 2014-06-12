@@ -8,6 +8,7 @@ GET		/communities							controllers.Application.community()
 GET		/provinces								controllers.Application.province()
 GET		/sectors								controllers.Application.sector()
 GET		/people									controllers.Application.people()
+GET		/comparison								controllers.Application.showCompareZone()
 
 # API 
 
