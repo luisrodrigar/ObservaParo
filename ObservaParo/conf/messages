@@ -19,6 +19,9 @@ UnemploymentPeople		= Unemployment People
 Total					= Total
 Year					= Year
 Month					= Month
+Blue					= Azul
+Orange					= Naranja
+Color					= Color
 
 list.provinces			= Unemployment rates of Spanish provinces
 list.communities		= Unemployment rates of Spanish autonomous communities

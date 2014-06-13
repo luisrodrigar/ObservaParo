@@ -1,4 +1,4 @@
-@(ob1 : Observation, ob2 : Observation)
+@(ob1 : Observation, ob2 : Observation, community : AutonomousCommunity)
 
 @import play.i18n._
 @import utils._
@@ -17,8 +17,8 @@
 		<li>@Messages.get("Comparison")</li>
 	</ol>
 	</br>
-	@{if(ob1.zone.name.contains("COMMUNITY"))
-		<h2 class="sub-header">@Messages.get("Comparison")<small> @ob1.zone.province.autonomousCommunity.name </small></h2>
+	@if(ob1.zone.name.contains("COMMUNITY")){
+		<h2 class="sub-header">@Messages.get("Comparison")<small> @community.name </small></h2>
 		<div class="table-responsive">
     	<table class="table table-striped">
     	   	<thead>
@@ -26,27 +26,51 @@
               		<th>@Messages.get("Indicator")</th>
               		<th>@Messages.get("Date")</th>
               		<th>@Messages.get("UnemploymentPeople")</th>
+              		<th>@Messages.get("Color")</th>
               	</tr>
            	</thead>
        		<tbody>
               		<tr>
-              			<td>@ob1.indicator</td>
-                  		<td>@ob1.date</td>
+              			<td>@ob1.indicator.name</td>
+                  		<td>@{ob1.date.getMonth()+1}/@{ob1.date.getYear()+1900}</td>
            				<td>@Util.getValueWithSeparators(ob1.obsValue.toDouble)</td>
+           				<td>@Messages.get("Orange")</td>
            			</tr>
            			<tr>
-              			<td>@ob2.indicator</td>
-                  		<td>@ob2.date</td>
+              			<td>@ob2.indicator.name</td>
+                  		<td>@{ob2.date.getMonth()+1}/@{ob2.date.getYear()+1900}</td>
            				<td>@Util.getValueWithSeparators(ob2.obsValue.toDouble)</td>
+           				<td>@Messages.get("Blue")</td>
            			</tr>
      		</tbody>
 		</table>
-		</div>		
-	else if(ob1.zone.name.contains("PROVINCE"))
-		<h2 class="sub-header">@Messages.get("Comparison")<small> @ob1.zone.province.name </small></h2>
-	else
-		<h2 class="sub-header">@Messages.get("Comparison")<small> @ob1.zone.name </small></h2>
+		</div>
+
+		<script type="text/javascript" 
+			src='@routes.Assets.at("javascripts/Chart.js")'></script>
+		
+		<canvas id="canvas" height="250" width="250"></canvas>
+			
+		<script type="text/javascript">
+		var data = [
+				{
+			value :	@ob1.obsValue,
+			color : "#F38630",
+			label : '@{ob1.date.getYear()+1900}',
+            labelColor : 'white',
+            labelFontSize : '16'
+				},
+				{
+			value : @ob2.obsValue,
+			color : "#69D2E7",
+			label : '@{ob2.date.getYear()+1900}',
+            labelColor : 'white',
+            labelFontSize : '16'
+				}
+			];
+			
+ 			var myPie = new Chart(document.getElementById("canvas").getContext("2d")).Pie(data);
+ 			
+		</script>		
 	}
-	
-	
 }

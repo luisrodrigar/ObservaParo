@@ -4,8 +4,10 @@ import models.Province;
 
 public class ProvinceGenerator {
 	public static Province createProvince(String file){
-		String provinceName = file.split("/")[2].split("0")[0]
-				.substring(5);
+		String provinceName = file.split("/")[2];
+		provinceName = provinceName.substring(5,provinceName.length()-8);
+		if(provinceName.charAt(provinceName.length()-1)!='0')
+			provinceName = provinceName.split("1")[0];
 		provinceName = provinceName.substring(0, provinceName.length() - 1);
 		String code = getCode(provinceName);
 		return new Province(code, provinceName);

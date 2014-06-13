@@ -19,6 +19,9 @@ UnemploymentPeople		= Parados
 Total					= Total
 Year					= Año
 Month					= Mes
+Blue					= Azul
+Orange					= Naranja
+Color					= Color
 
 list.provinces			= Desempleo en las provincias españolas
 list.communities		= Desempleo en las comunidades autónomas

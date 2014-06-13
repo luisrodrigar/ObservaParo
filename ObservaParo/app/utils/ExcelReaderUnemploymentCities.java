@@ -57,7 +57,7 @@ public class ExcelReaderUnemploymentCities {
 		init(xlsFile);
 
 		int lastRowNotEmpty = sheet.getLastRowNum();
-		if (isRowEmpty(sheet.getRow(sheet.getLastRowNum())))
+		while (isRowEmpty(sheet.getRow(lastRowNotEmpty)))
 			lastRowNotEmpty = lastRowNotEmpty - 1;
 		for (Row row : sheet) {
 			if (row.getRowNum() > 7 && row.getRowNum() < lastRowNotEmpty) {
@@ -143,8 +143,8 @@ public class ExcelReaderUnemploymentCities {
 		List<Observation> observations = new ArrayList<Observation>();
 
 		int lastRowNotEmpty = sheet.getLastRowNum();
-		if (isRowEmpty(sheet.getRow(sheet.getLastRowNum())))
-			lastRowNotEmpty = lastRowNotEmpty - 1;
+		while (isRowEmpty(sheet.getRow(lastRowNotEmpty)))
+			lastRowNotEmpty -= 1;
 
 		String indicatorName = "";
 		Long value = 0L;
@@ -235,7 +235,7 @@ public class ExcelReaderUnemploymentCities {
 		String[] pieces = xlsFile.split("_");
 		String month = pieces[pieces.length - 1].split("\\.")[0]
 				.substring(0, 2);
-		return Integer.parseInt(month);
+		return Integer.parseInt(month)-1;
 	}
 
 	public String getTheLastMonth() {
@@ -287,6 +287,10 @@ public class ExcelReaderUnemploymentCities {
 	}
 
 	private boolean isRowEmpty(Row row) {
+		if(row==null)
+			return true;
+		if(row.getCell(11)!=null && row.getCell(11).getCellType()==Cell.CELL_TYPE_STRING && (row.getCell(11).getStringCellValue().equals("Servicio Público de Empleo Estatal - INEM")||row.getCell(11).getStringCellValue().equals("Servicio Público de Empleo Estatal")))
+			return true;
 		for (int c = row.getFirstCellNum(); c <= row.getLastCellNum(); c++) {
 			Cell cell = row.getCell(c);
 			if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)

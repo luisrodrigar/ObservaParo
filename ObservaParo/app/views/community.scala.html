@@ -36,7 +36,7 @@
             	<div class="col-sm-4">
             		<select name="year_1" id="year_1" class="combobox form-control" required="required" style="display: none;">
                 		<option value="" selected="selected">@Messages.get("Message.year1")</option>
-                		@for(year <- 2005 to 2014){
+                		@for(year <- 2005 to Calendar.getInstance().get(Calendar.YEAR)-1){
                 			<option value="@year">@year</option>
                 		}
               		</select>
@@ -47,7 +47,7 @@
             	<div class="col-sm-4">
             		<select name="year_2" id="year_2" class="combobox form-control" required="required" style="display: none;">
                 		<option value="" selected="selected">@Messages.get("Message.year2")</option>
-                		@for(year <- 2005 to 2014){
+                		@for(year <- 2005 to Calendar.getInstance().get(Calendar.YEAR)-1){
                 			<option value="@year">@year</option>
                 		}
               		</select>
@@ -74,7 +74,7 @@
             	<div class="col-sm-4">
             		<select name="year" id="year" class="combobox form-control" required="required" style="display: none;">
                 		<option value="" selected="selected">@Messages.get("Message.year")</option>
-                		@for(year <- 2005 to 2014){
+                		@for(year <- 2005 to Calendar.getInstance().get(Calendar.YEAR)-1){
                 			<option value="@year">@year</option>
                 		}
               		</select>
