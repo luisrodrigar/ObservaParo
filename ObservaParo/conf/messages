@@ -22,6 +22,9 @@ Month					= Month
 Blue					= Azul
 Orange					= Naranja
 Color					= Color
+Pie						= Show pie diagram
+Bar						= Show bars diagram
+Doughnut				= Show doughnut diagram
 
 list.provinces			= Unemployment rates of Spanish provinces
 list.communities		= Unemployment rates of Spanish autonomous communities
@@ -33,11 +36,14 @@ Message.year1			= Select a first year
 Message.month1			= Select a first month
 Message.year2			= Select a second year
 Message.month2			= Select a second month
+Message.month			= Select a month
+Message.year			= Select a year
 
 Compare					= Compare
 Compare.communities		= Compare unemployment rates on Autonomous Communities
 Compare.type.year		= By years
 Compare.type.month		= By months
+Compare.type.communities= By communities
 Comparison				= Comparison
 
 observations			= Observations

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class ExcelReaderUnemploymentCities {
 
 	private void init(String xlsFile) throws InvalidFormatException,
 			IOException {
+		try{
 		input = new FileInputStream(new File(xlsFile));
 		workbook = WorkbookFactory.create(input);
 
@@ -48,12 +50,16 @@ public class ExcelReaderUnemploymentCities {
 		Province.create(province);
 
 		date = new Date(getYear(xlsFile), getMonth(xlsFile), 1);
+		}catch(Exception e){
+			throw e;
+		}
 	}
 
 	public List<Observation> read(String xlsFile) throws IOException,
 			InvalidFormatException {
 		List<Observation> obsList = new ArrayList<Observation>();
-
+		
+		try{
 		init(xlsFile);
 
 		int lastRowNotEmpty = sheet.getLastRowNum();
@@ -129,15 +135,20 @@ public class ExcelReaderUnemploymentCities {
 								value, date);
 						ob.save();
 						obsList.add(ob);
+						}
 					}
 				}
 			}
+			return obsList;
+		}catch(Exception e){
+			//TODO SOLVE PROBLEM WITH PROVINCE PAIS VASCO THE SAME FOR THE NEXT METHOD
+			return Collections.emptyList();
 		}
-		return obsList;
 	}
 
 	public List<Observation> readProvince(String xlsFile) throws IOException,
 			InvalidFormatException {
+		try{
 		init(xlsFile);
 		
 		List<Observation> observations = new ArrayList<Observation>();
@@ -212,6 +223,10 @@ public class ExcelReaderUnemploymentCities {
 			}
 		}
 		return observations;
+		}catch(Exception e){
+			//TODO
+			return Collections.emptyList();
+		}
 	}
 
 	private Long getCellValue(Cell cell, Workbook workbook) {
