@@ -153,7 +153,7 @@ public class ProvinceGenerator {
 			case "08":
 				return "BARCELONA";
 			case "48":
-				if(year>2011)
+				if(year>2010)
 					return "BIZKAIA";
 				else
 					return "VIZCAYA" ;

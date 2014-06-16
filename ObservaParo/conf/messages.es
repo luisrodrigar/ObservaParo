@@ -38,12 +38,17 @@ Message.year2			= Selecciona un segundo año
 Message.month2			= Selecciona un segundo mes
 Message.month			= Selecciona un mes
 Message.year			= Selecciona un año
+Message.province		= Selecciona una provincia
+Message.sector			= Selecciona un sector
 
 Compare					= Comparar
-Compare.communities		= Comparar la tasa de desempleo en Comunidades Autónomas
+Compare.communities		= Tasa de desempleo en Comunidades Autónomas
+Compare.provinces		= Tasa de desempleo en Provincias
+Compare.sectors			= Tasa de desempleo en Sectores Economicos
 Compare.type.year		= Entre años
 Compare.type.month		= Entre meses
 Compare.type.communities= Entre comunidades
+Compare.type.provinces 	= Entre provincias
 Comparison				= Comparación
 
 observations			= Observaciones

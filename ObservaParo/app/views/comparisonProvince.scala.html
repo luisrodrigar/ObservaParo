@@ -1,0 +1,173 @@
+@(ob1 : Observation, ob2 : Observation, province1 : Province, province2 : Province)
+
+@import play.i18n._
+@import models._
+@import utils._
+@import views.html.helper._
+
+
+@main("ObservaParo") {
+	</br>
+ 	</br>
+	<ol class="breadcrumb">
+		<li><a href="/">@Messages.get("Home")</a></li>
+		<li><a href="/provinces">@Messages.get("Provinces")</a></li>
+		<li class="active">@Messages.get("Comparison")</li>
+	</ol>
+	</br>
+	@if(province1.code==province2.code){
+		<h2 class="sub-header">@Messages.get("Comparison")<small> @province1.name </small></h2>
+		<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+              		<th>@Messages.get("Flag")</th>
+              		<th>@Messages.get("Indicator")</th>
+              		<th>@Messages.get("Date")</th>
+              		<th>@Messages.get("UnemploymentPeople")</th>
+              		<th>@Messages.get("Color")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+              		<tr>
+              			<td>@image(province1.getSrcImg(),28,22,Messages.get("Flag"))</td>
+              			<td>@ob1.indicator.name</td>
+                  		<td>@{ob1.date.getMonth()+1}/@{ob1.date.getYear()+1900}</td>
+           				<td>@Util.getValueWithSeparators(ob1.obsValue.toDouble)</td>
+           				<td>@Messages.get("Orange")</td>
+           			</tr>
+           			<tr>
+           				<td>@image(province2.getSrcImg(),28,22,Messages.get("Flag"))</td>
+              			<td>@ob2.indicator.name</td>
+                  		<td>@{ob2.date.getMonth()+1}/@{ob2.date.getYear()+1900}</td>
+           				<td>@Util.getValueWithSeparators(ob2.obsValue.toDouble)</td>
+           				<td>@Messages.get("Blue")</td>
+           			</tr>
+     		</tbody>
+		</table>
+		</div>
+		
+		<input type="button" onclick="showPie();" value="@Messages.get("Pie")" class="btn btn-primary"/>
+		<input type="button" onclick="showBar();" value="@Messages.get("Bar")" class="btn btn-primary"/>
+		
+		<canvas id="canvas" height="350" width="350"></canvas>
+				
+	}else{
+		<h2 class="sub-header">@Messages.get("Comparison")<small> @{ob1.date.getMonth()+1}/@{ob1.date.getYear()+1900} </small></h2>
+		<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+              		<th>@Messages.get("Flag")</th>
+              		<th>@Messages.get("Provinces")</th>
+              		<th>@Messages.get("Indicator")</th>
+              		<th>@Messages.get("UnemploymentPeople")</th>
+              		<th>@Messages.get("Color")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+              		<tr>
+              			<td>@image(province1.getSrcImg(),28,22,Messages.get("Flag"))</td>
+              			<td>@province1.name</td>
+              			<td>@ob1.indicator.name</td>
+           				<td>@Util.getValueWithSeparators(ob1.obsValue.toDouble)</td>
+           				<td>@Messages.get("Orange")</td>
+           			</tr>
+           			<tr>
+           				<td>@image(province2.getSrcImg(),28,22,Messages.get("Flag"))</td>
+           				<td>@province2.name</td>
+              			<td>@ob2.indicator.name</td>
+           				<td>@Util.getValueWithSeparators(ob2.obsValue.toDouble)</td>
+           				<td>@Messages.get("Blue")</td>
+           			</tr>
+     		</tbody>
+		</table>
+		</div>
+		
+		<input type="button" onclick="showPieCommunities();" value="@Messages.get("Pie")" class="btn btn-primary"/>
+		<input type="button" onclick="showBarCommunities();" value="@Messages.get("Bar")" class="btn btn-primary"/>
+		
+		<canvas id="canvas" height="350" width="350"></canvas>
+	
+	}
+	
+	<script type="text/javascript" 
+			src='@routes.Assets.at("javascripts/Chart.js")'></script>
+	
+	<script type="text/javascript">
+			
+			function showPie(){
+				var dataPie = [
+				{
+			value :	@ob1.obsValue,
+			color : "#F38630",
+			label : '@{ob1.date.getYear()+1900}',
+            labelColor : 'white',
+            labelFontSize : '16'
+				},
+				{
+			value : @ob2.obsValue,
+			color : "#69D2E7",
+			label : '@{ob2.date.getYear()+1900}',
+            labelColor : 'white',
+            labelFontSize : '16'
+				}
+			];
+ 				var myPie = new Chart(document.getElementById("canvas").getContext("2d")).Pie(dataPie);
+ 			}
+ 			function showBar(){
+ 				var dataBar = {
+			labels : ["@{ob1.date.getYear()+1900}   @{ob2.date.getYear()+1900}"],	
+			datasets : [
+				{
+			data :	[@ob1.obsValue],
+			fillColor : "#F38630",
+				},
+				{
+			data : [@ob2.obsValue],
+			fillColor : "#69D2E7",
+            	}
+				]
+			};
+ 				var myBar = new Chart(document.getElementById("canvas").getContext("2d")).Bar(dataBar);
+ 			}
+ 			
+ 			function showPieCommunities(){
+				var dataPie = [
+				{
+			value :	@ob1.obsValue,
+			color : "#F38630",
+			label : '@{province1.name}',
+            labelColor : 'white',
+            labelFontSize : '16'
+				},
+				{
+			value : @ob2.obsValue,
+			color : "#69D2E7",
+			label : '@{province2.name}',
+            labelColor : 'white',
+            labelFontSize : '16'
+				}
+			];
+ 				var myPie = new Chart(document.getElementById("canvas").getContext("2d")).Pie(dataPie);
+ 			}
+ 			
+ 			function showBarCommunities(){
+ 				var dataBar = {
+			labels : ["@{province1.name}   @{province2.name}"],	
+			datasets : [
+				{
+			data :	[@ob1.obsValue],
+			fillColor : "#F38630",
+				},
+				{
+			data : [@ob2.obsValue],
+			fillColor : "#69D2E7",
+            	}
+				]
+			};
+ 				var myBar = new Chart(document.getElementById("canvas").getContext("2d")).Bar(dataBar);
+ 			}
+ 			
+		</script>
+}

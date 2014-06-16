@@ -38,12 +38,17 @@ Message.year2			= Select a second year
 Message.month2			= Select a second month
 Message.month			= Select a month
 Message.year			= Select a year
+Message.province		= Select a Province
+Message.sector			= Select a sector
 
 Compare					= Compare
-Compare.communities		= Compare unemployment rates on Autonomous Communities
+Compare.communities		= Unemployment rates on Autonomous Communities
+Compare.provinces		= Unemployment rates on Provinces
+Compare.sectors			= Unemployment rates on Economic Sectors
 Compare.type.year		= By years
 Compare.type.month		= By months
 Compare.type.communities= By communities
+Compare.type.provinces	= By provinces
 Comparison				= Comparison
 
 observations			= Observations

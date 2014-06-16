@@ -48,7 +48,7 @@ public class Province extends Model {
 	}
 
 	public static void create(Province province) {
-		if (Province.findByName(province.name) == null) {
+		if (Province.findByCode(province.code) == null) {
 			province.save();
 		}
 	}
