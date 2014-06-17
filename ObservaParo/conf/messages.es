@@ -50,9 +50,18 @@ Compare.type.month		= Entre meses
 Compare.type.communities= Entre comunidades
 Compare.type.provinces 	= Entre provincias
 Comparison				= Comparación
+Comparison.sectors		= Comparación sectores
+Comparison.communities	= Comparación comunidades autónomas
+Comparison.provinces	= Comparación provincias
 
 observations			= Observaciones
 list.observations		= Lista de Observaciones
 
 Message.home			= Aplicación web que proporciona información acerca de la situación de desempleo en España.
 Message.enjoy			= ¡Disfruta del sitio web! 
+
+SECTOR_SERVICIOS		= Servicios
+SECTOR_CONSTRUCCION		= Construcción
+SECTOR_INDUSTRIA		= Industria
+SECTOR_AGRICULTURA		= Agricultura
+SIN_EMPLEO_ANTERIOR		= Sin empleo anterior

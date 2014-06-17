@@ -50,9 +50,18 @@ Compare.type.month		= By months
 Compare.type.communities= By communities
 Compare.type.provinces	= By provinces
 Comparison				= Comparison
+Comparison.sectors		= Comparison economic sectors
+Comparison.communities	= Comparison autonomous community
+Comparison.provinces	= Comparison provinces
 
 observations			= Observations
 list.observations		= List of Observations
 
 Message.home 			= Web application that provides information about the employment situation in Spain. 
 Message.enjoy			= Enjoy the web site!
+
+SECTOR_SERVICIOS		= Services
+SECTOR_CONSTRUCCION		= Building
+SECTOR_INDUSTRIA		= Industry
+SECTOR_AGRICULTURA		= Agriculture
+SIN_EMPLEO_ANTERIOR		= Without job before

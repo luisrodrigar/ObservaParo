@@ -120,26 +120,32 @@ public class Application extends Controller {
 	}
 	
 	public static Result showCompareSector() throws InvalidFormatException, IOException{
-		String sectorA, sectorB, community, province, month, year;
+		String sectorA, sectorB, communityA, communityB, provinceA, provinceB, month, year;
 		DynamicForm form = Form.form().bindFromRequest();
 		sectorA = form.get("sector_A");
 		sectorB = form.get("sector_B");
-		community = form.get("community");
-		province = form.get("province");
+		communityA = form.get("community_A");
+		provinceA = form.get("province_A");
+		communityB = form.get("community_B");
+		provinceB = form.get("province_B");
 		month = form.get("month");
 		year = form.get("year");
-		boolean isCommunity = community!=null;
-		boolean isProvince = province!=null;
+		boolean isCommunity = communityA!=null && communityB!=null;
+		boolean isProvince = provinceA!=null && provinceB!=null;
 		if(isCommunity){
-			AutonomousCommunity ac = AutonomousCommunity.findByCode(community);
-			Observation obSectorA = calculateObservationCommunity(ac, year, month, sectorA);
-			Observation obSectorB = calculateObservationCommunity(ac, year, month, sectorB);
-			return ok(comparisonSector(obSectorA, obSectorB, ac, null));
+			AutonomousCommunity acA = AutonomousCommunity.findByCode(communityA);
+			AutonomousCommunity acB = AutonomousCommunity.findByCode(communityB);
+			Province p = null;
+			Observation obSectorA = calculateObservationCommunity(acA, year, month, sectorA);
+			Observation obSectorB = calculateObservationCommunity(acB, year, month, sectorB);
+			return ok(comparisonSector.render(obSectorA,obSectorB,acA, acB,p,p));
 		}else if(isProvince){
-			Province p = Province.findByCode(province);
-			Observation obSectorA = calculateObservationProvince(p, year, month, sectorA);
-			Observation obSectorB = calculateObservationProvince(p, year, month, sectorB);
-			return ok(comparisonSector(obSectorA, obSectorB, null, p));
+			Province pA = Province.findByCode(provinceA);
+			Province pB = Province.findByCode(provinceB);
+			AutonomousCommunity ac = null;
+			Observation obSectorA = calculateObservationProvince(pA, year, month, sectorA);
+			Observation obSectorB = calculateObservationProvince(pB, year, month, sectorB);
+			return ok(comparisonSector.render(obSectorA, obSectorB, ac, ac, pA, pB));
 		}
 		return ok();
 	}
@@ -153,7 +159,7 @@ public class Application extends Controller {
 				+ province.code, Province.findByCode(province.code), TypeZone.PROVINCE),
 				Indicator.findByName(indicatorName), 0L, date);
 		
-		if (Integer.parseInt(month) < 9)
+		if (Integer.parseInt(month) <= 9)
 			for (Observation ob : ex.readProvince("public/data/MUNI_"
 					+ ProvinceGenerator.getNameProvince(province.code,
 					Integer.parseInt(year)) + "_0" + month
@@ -184,7 +190,7 @@ public class Application extends Controller {
 				Indicator.findByName(indicatorName), 0L, date);
 		
 		for (Province province : Province.findByAutonomousCommunity(ac)) {
-			if (Integer.parseInt(month) < 9)
+			if (Integer.parseInt(month) <= 9)
 				for (Observation ob : ex.readProvince("public/data/MUNI_"
 						+ ProvinceGenerator.getNameProvince(province.code,
 								Integer.parseInt(year)) + "_0" + month

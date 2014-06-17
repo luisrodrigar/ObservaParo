@@ -51,9 +51,20 @@
            		</div>
           	</div>
           	<div class="form-group">
-            	<label class="control-label col-sm-2">@Messages.get("Autonomous.Communities")</label>
+            	<label class="control-label col-sm-2">@Messages.get("Autonomous.Communities") A</label>
             	<div class="col-sm-4">
-            		<select name="community" id="community" class="combobox form-control" required="required" style="display: none;">
+            		<select name="community_A" id="community_A" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.community")</option>
+                		@for(community <- AutonomousCommunity.allOrderByCode()){
+                			<option value="@{community.code}">@community.name</option>
+                		}
+              		</select>
+           		</div>
+          	</div>
+          	<div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Autonomous.Communities") B</label>
+            	<div class="col-sm-4">
+            		<select name="community_B" id="community_B" class="combobox form-control" required="required" style="display: none;">
                 		<option value="" selected="selected">@Messages.get("Message.community")</option>
                 		@for(community <- AutonomousCommunity.allOrderByCode()){
                 			<option value="@{community.code}">@community.name</option>
@@ -121,9 +132,20 @@
            		</div>
           	</div>
           	<div class="form-group">
-            	<label class="control-label col-sm-2">@Messages.get("Provinces")</label>
+            	<label class="control-label col-sm-2">@Messages.get("Provinces") A</label>
             	<div class="col-sm-4">
-            		<select name="province" id="province" class="combobox form-control" required="required" style="display: none;">
+            		<select name="province_A" id="province_A" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.province")</option>
+                		@for(province <- Province.allOrderByCode()){
+                			<option value="@{province.code}">@province.name</option>
+                		}
+              		</select>
+           		</div>
+          	</div>
+          	<div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Provinces") B</label>
+            	<div class="col-sm-4">
+            		<select name="province_B" id="province_B" class="combobox form-control" required="required" style="display: none;">
                 		<option value="" selected="selected">@Messages.get("Message.province")</option>
                 		@for(province <- Province.allOrderByCode()){
                 			<option value="@{province.code}">@province.name</option>
@@ -155,6 +177,7 @@
           </div>
           <input type="submit" value="@Messages.get("Compare")" class="btn btn-primary"/>
        	}
+      </div>
       </div>
       </div>
 

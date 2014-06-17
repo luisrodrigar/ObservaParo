@@ -16,7 +16,7 @@
 	</ol>
 	</br>
 	@if(province1.code==province2.code){
-		<h2 class="sub-header">@Messages.get("Comparison")<small> @province1.name </small></h2>
+		<h2 class="sub-header">@Messages.get("Comparison.provinces")<small> @province1.name </small></h2>
 		<div class="table-responsive">
     	<table class="table table-striped">
     	   	<thead>
@@ -53,7 +53,7 @@
 		<canvas id="canvas" height="350" width="350"></canvas>
 				
 	}else{
-		<h2 class="sub-header">@Messages.get("Comparison")<small> @{ob1.date.getMonth()+1}/@{ob1.date.getYear()+1900} </small></h2>
+		<h2 class="sub-header">@Messages.get("Comparison.provinces ")<small> @{ob1.date.getMonth()+1}/@{ob1.date.getYear()+1900} </small></h2>
 		<div class="table-responsive">
     	<table class="table table-striped">
     	   	<thead>

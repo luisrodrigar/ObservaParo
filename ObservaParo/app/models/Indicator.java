@@ -46,7 +46,5 @@ public class Indicator extends Model {
 	public String toString() {
 		return "Indicator [name=" + name + "]";
 	}
-
-	
 	
 }

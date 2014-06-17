@@ -162,59 +162,132 @@ public class ExcelReaderUnemploymentCities {
 		Zone city = new Zone("PROVINCE" + province.code, province,
 				TypeZone.PROVINCE);
 		Zone.create(city);
-
+		int offset = 0;
+		boolean isOffsetRow = false;
 		for (Cell cell : sheet.getRow(lastRowNotEmpty)) {
 			switch (cell.getColumnIndex()) {
 			case 2:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "TOTAL";
 				value = getCellValue(cell, workbook);
 				break;
 			case 3:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "HOMBRES<25";
 				value = getCellValue(cell, workbook);
 				break;
 			case 4:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "HOMBRES25-44";
 				value = getCellValue(cell, workbook);
 				break;
 			case 5:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "HOMBRES>=45";
 				value = getCellValue(cell, workbook);
 				break;
 			case 6:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "MUJERES<25";
 				value = getCellValue(cell, workbook);
 				break;
 			case 7:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "MUJERES25-44";
 				value = getCellValue(cell, workbook);
 				break;
 			case 8:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "MUJERES>=45";
 				value = getCellValue(cell, workbook);
 				break;
 			case 9:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "SECTOR_AGRICULTURA";
 				value = getCellValue(cell, workbook);
 				break;
 			case 10:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "SECTOR_INDUSTRIA";
 				value = getCellValue(cell, workbook);
 				break;
 			case 11:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "SECTOR_CONSTRUCCION";
 				value = getCellValue(cell, workbook);
 				break;
 			case 12:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "SECTOR_SERVICIOS";
 				value = getCellValue(cell, workbook);
 				break;
 			case 13:
+				while(cell!=null && sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset).getCellType()==Cell.CELL_TYPE_BLANK){
+					isOffsetRow = true;
+					offset++;
+				}
+				if(isOffsetRow)
+					cell = sheet.getRow(lastRowNotEmpty).getCell(cell.getColumnIndex()+offset);
 				indicatorName = "SIN_EMPLEO_ANTERIOR";
 				value = getCellValue(cell, workbook);
 				break;
 			}
-			if (cell.getColumnIndex() > 1 && cell.getColumnIndex() < 14) {
+			if (cell.getColumnIndex() > 1 && cell.getColumnIndex() < 14+offset) {
 				Indicator indicator = new Indicator(indicatorName);
 				Indicator.create(indicator);
 				Observation ob = new Observation(city, indicator, value, date);
@@ -228,7 +301,7 @@ public class ExcelReaderUnemploymentCities {
 			return Collections.emptyList();
 		}
 	}
-
+	
 	private Long getCellValue(Cell cell, Workbook workbook) {
 		Long value = null;
 		if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
