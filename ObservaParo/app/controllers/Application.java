@@ -119,6 +119,115 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	@SuppressWarnings("deprecation")
+	public static Result showComparePeople() throws InvalidFormatException, IOException{
+		String peopleA, peopleB, communityA, communityB, provinceA, provinceB, month, year;
+		DynamicForm form = Form.form().bindFromRequest();
+		peopleA = form.get("people_A");
+		peopleB = form.get("people_B");
+		communityA = form.get("community_A");
+		provinceA = form.get("province_A");
+		communityB = form.get("community_B");
+		provinceB = form.get("province_B");
+		month = form.get("month");
+		year = form.get("year");
+		Observation obHombresA, obHombresB, obMujeresA, obMujeresB, obA = null, obB=null;
+		boolean isCommunity = communityA!=null && communityB!=null;
+		boolean isProvince = provinceA!=null && provinceB!=null;
+		if(isCommunity){
+			AutonomousCommunity acA = AutonomousCommunity.findByCode(communityA);
+			AutonomousCommunity acB = AutonomousCommunity.findByCode(communityB);
+			if(peopleA.equals("HOMBRES")){
+				Observation obHMENO25 = calculateObservationCommunity(acA, year, month, "HOMBRES<25");
+				Observation obH2544 = calculateObservationCommunity(acA, year, month, "HOMBRES25-44");
+				Observation obHMAY45 = calculateObservationCommunity(acA, year, month, "HOMBRES>=45");
+				obHombresA = new Observation(new Zone("COMMUNITY"+acA.code, null, TypeZone.AUTONOMOUS_COMMUNITY), new Indicator("HOMBRES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obHombresA.obsValue = obHMENO25.obsValue + obH2544.obsValue + obHMAY45.obsValue;
+				obA = obHombresA;
+			}else if(peopleA.equals("MUJERES")){
+				Observation obMMENO25 = calculateObservationCommunity(acA, year, month, "MUJERES<25");
+				Observation obM2544 = calculateObservationCommunity(acA, year, month, "MUJERES25-44");
+				Observation obMMAY45 = calculateObservationCommunity(acA, year, month, "MUJERES>=45");
+				obMujeresA = new Observation(new Zone("COMMUNITY"+acA.code, null, TypeZone.AUTONOMOUS_COMMUNITY), new Indicator("MUJERES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obMujeresA.obsValue = obMMENO25.obsValue + obM2544.obsValue + obMMAY45.obsValue;
+				obA = obMujeresA;
+			}
+			if(peopleB.equals("HOMBRES")){
+				Observation obHMENO25 = calculateObservationCommunity(acB, year, month, "HOMBRES<25");
+				Observation obH2544 = calculateObservationCommunity(acB, year, month, "HOMBRES25-44");
+				Observation obHMAY45 = calculateObservationCommunity(acB, year, month, "HOMBRES>=45");
+				obHombresB = new Observation(new Zone("COMMUNITY"+acB.code, null, TypeZone.AUTONOMOUS_COMMUNITY), new Indicator("HOMBRES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obHombresB.obsValue = obHMENO25.obsValue + obH2544.obsValue + obHMAY45.obsValue;
+				obB = obHombresB;
+			}else if(peopleB.equals("MUJERES")){
+				Observation obMMENO25 = calculateObservationCommunity(acB, year, month, "MUJERES<25");
+				Observation obM2544 = calculateObservationCommunity(acB, year, month, "MUJERES25-44");
+				Observation obMMAY45 = calculateObservationCommunity(acB, year, month, "MUJERES>=45");
+				obMujeresB = new Observation(new Zone("COMMUNITY"+acB.code, null, TypeZone.AUTONOMOUS_COMMUNITY), new Indicator("MUJERES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obMujeresB.obsValue = obMMENO25.obsValue + obM2544.obsValue + obMMAY45.obsValue;
+				obB = obMujeresB;
+			}if(obA!=null && obB!=null){
+				return ok(comparisonPeople.render(obA, obB, acA, acB, null,null));
+			}else if(obA!=null && obB==null){
+				obB = calculateObservationCommunity(acB, year, month, peopleB);
+				return ok(comparisonPeople.render(obA, obB, acA, acB, null, null));
+			}else if(obA==null && obB!=null){
+				obA = calculateObservationCommunity(acA, year, month, peopleA);
+				return ok(comparisonPeople.render(obA, obB, acA, acB, null, null));
+			}else{
+				obA = calculateObservationCommunity(acA, year, month, peopleA);
+				obB = calculateObservationCommunity(acB, year, month, peopleB);
+				return ok(comparisonPeople.render(obA, obB, acA, acB, null, null));
+			}
+		}else if(isProvince){
+			Province pA = Province.findByCode(provinceA);
+			Province pB = Province.findByCode(provinceB);
+			if(peopleA.equals("HOMBRES")){
+				Observation obHMENO25 = calculateObservationProvince(pA, year, month, "HOMBRES<25");
+				Observation obH2544 = calculateObservationProvince(pA, year, month, "HOMBRES25-44");
+				Observation obHMAY45 = calculateObservationProvince(pA, year, month, "HOMBRES>=45");
+				obHombresA = new Observation(new Zone("PROVINCE"+pA.code, Province.findByCode(pA.code), TypeZone.PROVINCE), new Indicator("HOMBRES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obHombresA.obsValue = obHMENO25.obsValue + obH2544.obsValue + obHMAY45.obsValue;
+				obA = obHombresA;
+			}else if(peopleA.equals("MUJERES")){
+				Observation obMMENO25 = calculateObservationProvince(pA, year, month, "MUJERES<25");
+				Observation obM2544 = calculateObservationProvince(pA, year, month, "MUJERES25-44");
+				Observation obMMAY45 = calculateObservationProvince(pA, year, month, "MUJERES>=45");
+				obMujeresA = new Observation(new Zone("PROVINCE"+pA.code, Province.findByCode(pA.code), TypeZone.PROVINCE), new Indicator("MUJERES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obMujeresA.obsValue = obMMENO25.obsValue + obM2544.obsValue + obMMAY45.obsValue;
+				obA = obMujeresA;
+			}
+			if(peopleB.equals("HOMBRES")){
+				Observation obHMENO25 = calculateObservationProvince(pB, year, month, "HOMBRES<25");
+				Observation obH2544 = calculateObservationProvince(pB, year, month, "HOMBRES25-44");
+				Observation obHMAY45 = calculateObservationProvince(pB, year, month, "HOMBRES>=45");
+				obHombresB = new Observation(new Zone("PROVINCE"+pB.code, Province.findByCode(pB.code), TypeZone.PROVINCE), new Indicator("HOMBRES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obHombresB.obsValue = obHMENO25.obsValue + obH2544.obsValue + obHMAY45.obsValue;
+				obB = obHombresB;
+			}else if(peopleB.equals("MUJERES")){
+				Observation obMMENO25 = calculateObservationProvince(pB, year, month, "MUJERES<25");
+				Observation obM2544 = calculateObservationProvince(pB, year, month, "MUJERES25-44");
+				Observation obMMAY45 = calculateObservationProvince(pB, year, month, "MUJERES>=45");
+				obMujeresB = new Observation(new Zone("PROVINCE"+pB.code, Province.findByCode(pB.code), TypeZone.PROVINCE), new Indicator("MUJERES"), 0L, new Date(Integer.parseInt(year)-1900, Integer.parseInt(month)-1, 1));
+				obMujeresB.obsValue = obMMENO25.obsValue + obM2544.obsValue + obMMAY45.obsValue;
+				obB = obMujeresB;
+			}if(obA!=null && obB!=null){
+				return ok(comparisonPeople.render(obA, obB, null, null, pA, pB));
+			}else if(obA!=null && obB==null){
+				obB = calculateObservationProvince(pB, year, month, peopleB);
+				return ok(comparisonPeople.render(obA, obB, null, null, pA, pB));
+			}else if(obA==null && obB!=null){
+				obA = calculateObservationProvince(pA, year, month, peopleA);
+				return ok(comparisonPeople.render(obA, obB, null, null, pA, pB));
+			}else{
+				obA = calculateObservationProvince(pA, year, month, peopleA);
+				obB = calculateObservationProvince(pB, year, month, peopleB);
+				return ok(comparisonPeople.render(obA, obB, null, null, pA, pB));
+			}
+		}
+		return ok();
+	}
+	
 	public static Result showCompareSector() throws InvalidFormatException, IOException{
 		String sectorA, sectorB, communityA, communityB, provinceA, provinceB, month, year;
 		DynamicForm form = Form.form().bindFromRequest();

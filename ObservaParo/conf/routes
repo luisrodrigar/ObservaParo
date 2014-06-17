@@ -11,6 +11,7 @@ GET		/people									controllers.Application.people()
 GET		/comparison/community					controllers.Application.showCompareCommunity()
 GET		/comparison/province					controllers.Application.showCompareProvince()
 GET		/comparison/sector						controllers.Application.showCompareSector()
+GET		/comparison/people						controllers.Application.showComparePeople()
 
 # API 
 
