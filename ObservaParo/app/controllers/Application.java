@@ -3,7 +3,9 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -36,7 +38,18 @@ public class Application extends Controller {
 	public static Result people() {
 		return ok(people.render());
 	}
+	
+	public static Result cities(){
+		return ok(cities.render());
+	}
 
+	public static Result changeLanguage(){
+		DynamicForm form = Form.form().bindFromRequest();
+		String lang = form.get("language");
+		changeLang(lang);
+		return ok(index.render());
+	}
+	
 	public static Result showCompareCommunity() throws NumberFormatException,
 			InvalidFormatException, IOException {
 		String communityId, year1, year2, month1, month2, year, communityA, communityB, month;
@@ -257,6 +270,40 @@ public class Application extends Controller {
 			return ok(comparisonSector.render(obSectorA, obSectorB, ac, ac, pA, pB));
 		}
 		return ok();
+	}
+	
+	public static Result showCities() throws InvalidFormatException, IOException{
+		String province, month, year;
+		DynamicForm form = Form.form().bindFromRequest();
+		province = form.get("province");
+		month = form.get("month");
+		year = form.get("year");
+		ExcelReaderUnemploymentCities ex = new ExcelReaderUnemploymentCities();
+		Province p = Province.findByCode(province);
+		List<Observation> observations = null;
+		if (Integer.parseInt(month) <= 9)
+			observations = ex.read("public/data/MUNI_"
+					+ ProvinceGenerator.getNameProvince(p.code,
+					Integer.parseInt(year)) + "_0" + month
+					+ year.substring(2, 4) + ".xls");
+		else
+			observations = ex.read("public/data/MUNI_"
+					+ ProvinceGenerator.getNameProvince(p.code,
+					Integer.parseInt(year)) + "_" + month
+					+ year.substring(2, 4) + ".xls");
+		Map<String, Map<String, String>> mapCity = new HashMap<String, Map<String, String>>();
+		for(Observation ob: observations){
+			Map<String, String> mapObservationByCity = new HashMap<String, String>();
+			mapCity.put(ob.zone.name, mapObservationByCity);
+		}
+		for(Observation ob: observations){
+			mapCity.get(ob.zone.name).put(ob.indicator.name, String.valueOf(ob.obsValue));
+		}
+		return ok(showCities.render(mapCity,p.name,month, year));
+	}
+	
+	public static Result aboutMe(){
+		return ok(aboutMe.render());
 	}
 	
 	private static Observation calculateObservationProvince(Province province, String year, String month, String indicatorName) throws NumberFormatException, InvalidFormatException, IOException{

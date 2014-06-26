@@ -128,6 +128,12 @@ public class Observation extends Model {
 		List<Observation> result = find.where().eq("zone", zone).eq("indicator", i).findList();
 		return result;
 	}
+	
+	public static List<Observation> findByZoneAndIndicatorAndDate(Zone zone, String indicator, Date date) {
+		Indicator i = Indicator.findByName(indicator);
+		List<Observation> result = find.where().eq("zone", zone).eq("indicator", i).eq("date", date).findList();
+		return result;
+	}
 
 	@Override
 	public String toString() {

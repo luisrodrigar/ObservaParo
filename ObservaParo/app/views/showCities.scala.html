@@ -1,0 +1,59 @@
+@(obs : Map[String, Map[String, String]], province : String, month : String, year : String)
+
+@import play.i18n._
+@import models._
+@import utils._
+@import views.html.helper._
+
+
+@main("ObservaParo") {
+	</br>
+ 	</br>
+	<ol class="breadcrumb">
+		<li><a href="/">@Messages.get("Home")</a></li>
+		<li><a href="/cities">@Messages.get("Cities")</a></li>
+		<li class="active">@Messages.get("Show")</li>
+	</ol>
+	</br>
+		<h2 class="sub-header">@Messages.get("Show.cities")<small> @province - @month / @year </small></h2>
+		<div class="table-responsive">
+    	<table class="table table-striped">
+    	   	<thead>
+              	<tr>
+              		<th>@Messages.get("City")</th>
+              		<th>@Messages.get("Total")</th>
+              		<th>@Messages.get("MenMEN25")</th>
+              		<th>@Messages.get("Men2544")</th>
+              		<th>@Messages.get("MenMAY45")</th>
+              		<th>@Messages.get("WomenMEN25")</th>
+              		<th>@Messages.get("Women2544")</th>
+              		<th>@Messages.get("WomenMAY45")</th>
+              		<th>@Messages.get("SECTOR_AGRICULTURA")</th>
+              		<th>@Messages.get("SECTOR_INDUSTRIA")</th>
+              		<th>@Messages.get("SECTOR_CONSTRUCCION")</th>
+              		<th>@Messages.get("SECTOR_SERVICIOS")</th>
+              		<th>@Messages.get("SIN_EMPLEO_ANTERIOR")</th>
+              	</tr>
+           	</thead>
+       		<tbody>
+              			@for(city <- obs.keySet.toSeq.sorted){
+              			<tr>
+              				<td>@city</td>
+              				<td>@obs.get(city).get("TOTAL")</td>
+                  			<td>@obs.get(city).get("HOMBRES<25")</td>
+           					<td>@obs.get(city).get("HOMBRES25-44")</td>
+           					<td>@obs.get(city).get("HOMBRES>=45")</td>
+           					<td>@obs.get(city).get("MUJERES<25")</td>
+              				<td>@obs.get(city).get("MUJERES25-44")</td>
+              				<td>@obs.get(city).get("MUJERES>=45")</td>
+                  			<td>@obs.get(city).get("SECTOR_AGRICULTURA")</td>
+           					<td>@obs.get(city).get("SECTOR_INDUSTRIA")</td>
+           					<td>@obs.get(city).get("SECTOR_CONSTRUCCION")</td>
+           					<td>@obs.get(city).get("SECTOR_SERVICIOS")</td>
+           					<td>@obs.get(city).get("SIN_EMPLEO_ANTERIOR")</td>
+           				</tr>
+           				}
+     		</tbody>
+		</table>
+		</div>
+}

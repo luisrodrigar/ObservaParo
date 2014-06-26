@@ -1,0 +1,76 @@
+@()
+
+@import play.i18n._
+@import utils._
+@import models._
+@import play.cache._
+@import scala.math._
+@import views.html.helper._
+
+@main("ObservaParo") {
+	</br>
+ 	</br>
+	<ol class="breadcrumb">
+		<li><a href="/">@Messages.get("Home")</a></li>
+		<li class="active"> <a href="/cities">@Messages.get("Cities")</a></li>
+	</ol>
+	</br>
+	<div class="row">
+        <h2>@Messages.get("Show.cities")</h2>
+        </br>
+        <div class="panel panel-primary">
+        <div class="panel-heading">
+        <h4>@Messages.get("Show.by.province")</h4>
+        </div>
+        <div class="panel-body">
+       		@helper.form(action = routes.Application.showCities(), 'id -> "myForm", 'class-> "form-horizontal"){
+          	<div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Provinces") A</label>
+            	<div class="col-sm-4">
+            		<select name="province" id="province" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.province")</option>
+                		@for(province <- Province.allOrderByCode()){
+                			<option value="@{province.code}">@province.name</option>
+                		}
+              		</select>
+           		</div>
+          	</div>
+          <div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Year")</label>
+            	<div class="col-sm-4">
+            		<select name="year" id="year" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.year")</option>
+                		@for(year <- 2005 to Calendar.getInstance().get(Calendar.YEAR)){
+                			<option value="@year">@year</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <div class="form-group">
+            	<label class="control-label col-sm-2">@Messages.get("Month")</label>
+            	<div class="col-sm-4">
+            		<select name="month" id="month" class="combobox form-control" required="required" style="display: none;">
+                		<option value="" selected="selected">@Messages.get("Message.month1")</option>
+                		@for(month <- 1 to 12){
+                			<option value="@month">@month</option>
+                		}
+              		</select>
+            </div>
+          </div>
+          <input type="submit" value="@Messages.get("Show")" class="btn btn-primary"/>
+       	}
+       	</div>
+       	</div>
+        
+      </div>
+
+	<script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/bootstrap-combobox.js")" type="text/javascript"></script>
+
+	<script type="text/javascript">
+ 		$(document).ready(function(){
+    		$('.combobox').combobox();
+  		});
+	</script>
+  	
+}

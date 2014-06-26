@@ -14,6 +14,8 @@ Flag					= Bandera
 Date					= Fecha
 Spain					= España
 Country					= País
+Cities					= Ciudades
+City					= Ciudad
 Percentage				= Porcentaje
 UnemploymentPeople		= Parados
 Total					= Total
@@ -25,6 +27,7 @@ Color					= Color
 Pie						= Mostrar diagrama de tarta
 Bar						= Mostrar diagrama de barras
 Doughnut				= Mostrar diagrama de doughnut
+Show					= Visualizar
 
 list.provinces			= Desempleo en las provincias españolas
 list.communities		= Desempleo en las comunidades autónomas
@@ -41,6 +44,7 @@ Message.year			= Selecciona un año
 Message.province		= Selecciona una provincia
 Message.sector			= Selecciona un sector
 Message.people			= Selecciona un tipo de persona
+Message.languages		= Selecciona un idioma
 
 Compare					= Comparar
 Compare.communities		= Tasa de desempleo en Comunidades Autónomas
@@ -57,11 +61,30 @@ Comparison.communities	= Comparación comunidades autónomas
 Comparison.provinces	= Comparación provincias
 Comparison.people		= Comparación gente
 
+Language				= Idioma
+Es						= Español
+En						= Inglés
+Change					= Cambiar
+
 observations			= Observaciones
 list.observations		= Lista de Observaciones
 
 Message.home			= Aplicación web que proporciona información acerca de la situación de desempleo en España.
 Message.enjoy			= ¡Disfruta del sitio web! 
+
+Show.cities				= Visualizar desempleo en ciudades de 
+Show.by.province		= Por provincia
+
+Total					= Total
+
+Total					= Total
+MenMEN25				= Hombres <25
+Men2544					= Hombres 25-44
+MenMAY45				= Hombres >=45
+
+WomenMEN25				= Mujeres <25
+Women2544				= Mujeres 25-44
+WomenMAY45				= Mujeres >=45
 
 SECTOR_SERVICIOS		= Servicios
 SECTOR_CONSTRUCCION		= Construcción

@@ -13,6 +13,8 @@ Code					= Code
 Flag					= Flag
 Date					= Date
 Spain					= Spain
+Cities					= Cities
+City					= City
 Country					= Country
 Percentage				= Percentage
 UnemploymentPeople		= Unemployment People
@@ -25,6 +27,7 @@ Color					= Color
 Pie						= Show pie diagram
 Bar						= Show bars diagram
 Doughnut				= Show doughnut diagram
+Show					= Show
 
 list.provinces			= Unemployment rates of Spanish provinces
 list.communities		= Unemployment rates of Spanish autonomous communities
@@ -41,6 +44,7 @@ Message.year			= Select a year
 Message.province		= Select a Province
 Message.sector			= Select a sector
 Message.people			= Select a type of person
+Message.languages		= Select a language
 
 Compare					= Compare
 Compare.communities		= Unemployment rates on Autonomous Communities
@@ -57,11 +61,29 @@ Comparison.communities	= Comparison autonomous community
 Comparison.provinces	= Comparison provinces
 Comparison.people		= Comparison people
 
+Language				= Language
+Es						= Spanish
+En						= English
+Change					= Change
+
 observations			= Observations
 list.observations		= List of Observations
 
 Message.home 			= Web application that provides information about the employment situation in Spain. 
 Message.enjoy			= Enjoy the web site!
+
+Show.cities				= Show unemployment rates in cities from 
+Show.by.province		= By province
+
+Total					= Total
+
+MenMEN25				= Men <25
+Men2544					= Men 25-44
+MenMAY45				= Men >=45
+
+WomenMEN25				= Women <25
+Women2544				= Women 25-44
+WomenMAY45				= Women >=45
 
 SECTOR_SERVICIOS		= Services
 SECTOR_CONSTRUCCION		= Building

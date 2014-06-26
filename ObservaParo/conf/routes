@@ -4,14 +4,18 @@
 
 # Web page
 GET     /			                      		controllers.Application.index()
+GET		/idioma									controllers.Application.changeLanguage()
 GET		/communities							controllers.Application.community()
 GET		/provinces								controllers.Application.province()
 GET		/sectors								controllers.Application.sector()
 GET		/people									controllers.Application.people()
+GET		/cities									controllers.Application.cities()
 GET		/comparison/community					controllers.Application.showCompareCommunity()
 GET		/comparison/province					controllers.Application.showCompareProvince()
 GET		/comparison/sector						controllers.Application.showCompareSector()
 GET		/comparison/people						controllers.Application.showComparePeople()
+GET		/show/cities							controllers.Application.showCities()
+GET		/about-me								controllers.Application.aboutMe()
 
 # API 
 
