@@ -24,6 +24,8 @@
         </p>
 	</div>
 	
+	@Crawler.getInstance().checkFiles()
+	
 	@Observation.deleteAll()
 	@ExcelReaderUnemploymentCities.getInstance().createProvinceObservationsBydate(ExcelReaderUnemploymentCities.getInstance().getTheLastMonth())
    	@Util.setLong("total", 0L)
@@ -32,7 +34,7 @@
             @Util.setValue("current", ob.obsValue)
    			@Util.setLong("total", Util.getLong("current") + Util.getLong("total"))
   		}
-   	}	
+   	}
    	
    	<h2 class="sub-header">@Messages.get("Spain")<small> @ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(0,2) - 20@ExcelReaderUnemploymentCities.getInstance().getTheLastMonth().substring(2,4)</small></h2>
 	<div class="table-responsive">

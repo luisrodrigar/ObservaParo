@@ -52,14 +52,15 @@
   			<hr>
   			<div class="col-md-4 col-md-offset-4">
   				@helper.form(action = routes.Application.changeLanguage(), 'id -> "myForm", 'class-> "form-horizontal"){
-					<div class="form-group">
-            		<select name="language" id="language" class="combobox" required="required">
+
+            		<select name="language" id="language" class="combobox form-control" required="required">
                 		<option value="" selected="selected">@Messages.get("Message.languages")</option>
                 		<option value="en">@Messages.get("En")</option>
                 		<option value="es">@Messages.get("Es")</option>
               		</select>
+              		</br>
             		<input type="submit" value="@Messages.get("Change")" class="btn btn-primary"/>
-            		</div>
+  					<hr>
             		
           		}
           	</div>

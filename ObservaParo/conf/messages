@@ -85,6 +85,8 @@ WomenMEN25				= Women <25
 Women2544				= Women 25-44
 WomenMAY45				= Women >=45
 
+Message.aboutMe			= This website has been developed for a project of the Software's Architecture subject.
+
 SECTOR_SERVICIOS		= Services
 SECTOR_CONSTRUCCION		= Building
 SECTOR_INDUSTRIA		= Industry

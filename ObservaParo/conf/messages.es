@@ -86,6 +86,8 @@ WomenMEN25				= Mujeres <25
 Women2544				= Mujeres 25-44
 WomenMAY45				= Mujeres >=45
 
+Message.aboutMe			= Este portal web ha sido desarrollado para un trabajo de la evaluación extraordinaria de la asignatura de Arquitectura del Software.
+
 SECTOR_SERVICIOS		= Servicios
 SECTOR_CONSTRUCCION		= Construcción
 SECTOR_INDUSTRIA		= Industria

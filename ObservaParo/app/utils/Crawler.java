@@ -1,9 +1,14 @@
 package utils;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 public class Crawler {
 	public final static String url = "https://www.sepe.es/contenido/estadisticas/datos_estadisticos/municipios/";
@@ -24,7 +29,12 @@ public class Crawler {
 			"VIZCAYA", "BIZKAIA", "ZAMORA", "ZARAGOZA" };
 	public final static String storeFiles = "public/data";
 
+	public static Crawler getInstance(){
+		return new Crawler();
+	}
+	
 	public void download() throws IOException {
+		File file = new File("public/data");
 		for (int i = 0; i < year.length; i++) {
 			for (int j = 0; j < month.length; j++) {
 				if (i != 0 || j > 3) {
@@ -35,10 +45,12 @@ public class Crawler {
 								.valueOf(iMasUno);
 						String month_st = (j < 9) ? "0" + jMasUno : String
 								.valueOf(jMasUno);
-						storeFile(url + month[j] + "_" + year[i] + "/MUNI_"
+						String storeDir = "MUNI_" + province[k]
+								+ "_" + month_st + year_st + ".xls";
+						if(!toListString(file).contains(storeDir))
+							storeFile(url + month[j] + "_" + year[i] + "/MUNI_"
 								+ province[k] + "_" + month_st + year_st
-								+ ".xls", storeFiles + "/MUNI_" + province[k]
-								+ "_" + month_st + year_st + ".xls");
+								+ ".xls", storeFiles + "/" + storeDir);
 					}
 				}
 			}
@@ -46,6 +58,15 @@ public class Crawler {
 		}
 	}
 
+	private List<String> toListString(File file){
+		List<File> files = Arrays.asList(file.listFiles());
+		List<String> names = new ArrayList<String>();
+		for(File each: files){
+			names.add(each.getName());
+		}
+		return names;
+	}
+	
 	private void storeFile(String resource, String storeDir) throws IOException {
 		BufferedInputStream in = null;
 		FileOutputStream storeFile = null;
@@ -67,6 +88,16 @@ public class Crawler {
 			if (storeFile != null) {
 				storeFile.close();
 			}
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void checkFiles() throws IOException{
+		File file = new File("public/data");
+		if(file.listFiles().length==0)
+			download();
+		if(new Date().getDate()>14){
+			//TODO
 		}
 	}
 
