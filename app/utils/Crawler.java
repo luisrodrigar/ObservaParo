@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Crawler {
-	public final static String url = "https://www.sepe.es/contenido/estadisticas/datos_estadisticos/municipios/";
+	public final static String url = "https://www.sepe.es/contenidos/que_es_el_sepe/estadisticas/datos_estadisticos/municipios/";
 	public final static String[] month = { "enero", "febrero", "marzo",
 			"abril", "mayo", "junio", "julio", "agosto", "septiembre",
 			"octubre", "noviembre", "diciembre" };
